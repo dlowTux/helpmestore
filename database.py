@@ -21,9 +21,9 @@ class database:
             user=self.auth.create_user_with_email_and_password(data['email'],data['password'])
             data['localId']=user["localId"]
             self.RegisterData(data)
+            return user["localId"]
         except:
-            return "Error el correo ya esta en uso"
-        return "Usuario registrado"
+            return False
 
     def RegisterData(self,data):
         #pop the email and password

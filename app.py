@@ -1,5 +1,6 @@
 from flask import Flask,render_template,session,g,request,jsonify
 import os
+
 import user
 
 
@@ -22,10 +23,19 @@ def signup():
     if request.method=="POST":
         data=request.get_json()
         response=user.user().CreateAccount(data)
-        return jsonify({'response':response})
+        return signup_before(response)
     elif request.method=="GET":
         return render_template('signup.html')
 
+def signup_before(response):
+    if response==False:
+        return jsonify({'response':0})
+    return savesession(response)
+
+def savesession(idlocal):
+    session.pop('user',None)
+    session["user"]=idlocal
+    return jsonify({'response':1})
 
 if __name__ =="__main__":
     app.run(port=5000, debug=True)

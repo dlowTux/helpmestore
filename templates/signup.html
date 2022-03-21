@@ -1,5 +1,4 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "layout.html" %} {% block content %}
 <link href="../static/css/signup.css" rel="stylesheet" />
 <section>
     <div class="imgBx">
@@ -11,7 +10,7 @@
             <form id="form">
                 <div class="inputBx">
                     <span>Correo</span>
-                    <input type="email" id='txtemail' />
+                    <input type="email" id="txtemail" />
                 </div>
                 <div class="inputBx">
                     <span>Contraseña</span>
@@ -26,18 +25,49 @@
                     <input type="text" id="txtapellido" required />
                 </div>
                 <div class="inputBx" id="load">
-                    <input type="submit" value="Crear cuenta" name="" required />
+                    <input
+                        type="submit"
+                        value="Crear cuenta"
+                        name=""
+                        required
+                    />
                 </div>
-                <div class="error" id="errors">
+                <div class="error" id="errors"></div>
+                <div
+                    class="position-fixed bottom-0 end-0 p-3"
+                    style="z-index: 11"
+                >
+                    <div
+                        id="liveToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Helpme Store</strong>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            Felicidades,tu cuenta ha sido creada satisfactoriamente 
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 </section>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
-    crossorigin="anonymous"></script>
 
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+    crossorigin="anonymous"
+></script>
 
 <script src="../static/js/signup.js"></script>
 {% endblock%}
