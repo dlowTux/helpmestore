@@ -1,4 +1,4 @@
-from flask import Flask,render_template,session,g,request,jsonify
+from flask import Flask,render_template,session,g,request,jsonify,redirect,url_for
 import os
 
 import user
@@ -26,6 +26,12 @@ def signup():
         return signup_before(response)
     elif request.method=="GET":
         return render_template('signup.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('index'))
+
 
 def signup_before(response):
     if response==False:
