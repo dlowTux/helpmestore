@@ -26,14 +26,22 @@
             user-select: none;
         }
 
+        .producto {
+            width: 100%
+        }
+
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
             }
         }
+
+        @media (max-width: 768px) {
+            .producto {
+                width: 300px;
+            }
+        }
     </style>
-
-
 </head>
 
 <body id="page-top">
@@ -48,9 +56,15 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="#services">Servicios</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#portfolio">Productos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">Acerca de</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#portfolio">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Acerca de</a>
+                    </li>
                     <li class="nav-item">
                         {% if token==0 %}
                         <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal">Ingresa</a>
@@ -58,27 +72,33 @@
                         <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
                             aria-controls="offcanvasExample">Mi cuenta</a>
                         {% endif%}
-
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Carrito</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Carrito</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
     <!--Offcanvas-->
+    {% if token == 1%}
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel">HelpMe Store</h5>
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+                HelpMe Store
+            </h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             <div class="row">
                 <div class="col-2">
-                    <img src="../static/assets/img/account/user.png" width="60px" height="60px">
+                    <img src="../static/assets/img/account/user.png" width="60px" height="60px" />
                 </div>
                 <div class="col-10">
                     <small>Hola</small>
-                    <h3>Omar</h3>
+                    <h5>
+                        {{user_data["name"]}} {{ user_data["lastname"] }}
+                    </h5>
                 </div>
             </div>
             <div class="dropdown mt-3">
@@ -87,8 +107,12 @@
                     Acciones
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
-                    <li><a class="dropdown-item" href="#">Cambiar contraseña</a></li>
+                    <li>
+                        <a class="dropdown-item" href="/logout">Cerrar sesión</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">Cambiar contraseña</a>
+                    </li>
                 </ul>
             </div>
 
@@ -103,12 +127,18 @@
                     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <strong>This is the first item's accordion body.</strong> It is shown by default, until the
-                            collapse plugin adds the appropriate classes that we use to style each element. These
-                            classes control the overall appearance, as well as the showing and hiding via CSS
-                            transitions. You can modify any of this with custom CSS or overriding our default variables.
-                            It's also worth noting that just about any HTML can go within the
-                            <code>.accordion-body</code>, though the transition does limit overflow.
+                            <strong>This is the first item's accordion
+                                body.</strong>
+                            It is shown by default, until the collapse
+                            plugin adds the appropriate classes that we use
+                            to style each element. These classes control the
+                            overall appearance, as well as the showing and
+                            hiding via CSS transitions. You can modify any
+                            of this with custom CSS or overriding our
+                            default variables. It's also worth noting that
+                            just about any HTML can go within the
+                            <code>.accordion-body</code>, though the
+                            transition does limit overflow.
                         </div>
                     </div>
                 </div>
@@ -122,12 +152,18 @@
                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <strong>This is the second item's accordion body.</strong> It is hidden by default, until
-                            the collapse plugin adds the appropriate classes that we use to style each element. These
-                            classes control the overall appearance, as well as the showing and hiding via CSS
-                            transitions. You can modify any of this with custom CSS or overriding our default variables.
-                            It's also worth noting that just about any HTML can go within the
-                            <code>.accordion-body</code>, though the transition does limit overflow.
+                            <strong>This is the second item's accordion
+                                body.</strong>
+                            It is hidden by default, until the collapse
+                            plugin adds the appropriate classes that we use
+                            to style each element. These classes control the
+                            overall appearance, as well as the showing and
+                            hiding via CSS transitions. You can modify any
+                            of this with custom CSS or overriding our
+                            default variables. It's also worth noting that
+                            just about any HTML can go within the
+                            <code>.accordion-body</code>, though the
+                            transition does limit overflow.
                         </div>
                     </div>
                 </div>
@@ -141,24 +177,36 @@
                     <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <strong>This is the third item's accordion body.</strong> It is hidden by default, until the
-                            collapse plugin adds the appropriate classes that we use to style each element. These
-                            classes control the overall appearance, as well as the showing and hiding via CSS
-                            transitions. You can modify any of this with custom CSS or overriding our default variables.
-                            It's also worth noting that just about any HTML can go within the
-                            <code>.accordion-body</code>, though the transition does limit overflow.
+                            <strong>This is the third item's accordion
+                                body.</strong>
+                            It is hidden by default, until the collapse
+                            plugin adds the appropriate classes that we use
+                            to style each element. These classes control the
+                            overall appearance, as well as the showing and
+                            hiding via CSS transitions. You can modify any
+                            of this with custom CSS or overriding our
+                            default variables. It's also worth noting that
+                            just about any HTML can go within the
+                            <code>.accordion-body</code>, though the
+                            transition does limit overflow.
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    {% endif%}
+
     <!--Offcanvas -->
     <!-- Masthead-->
     <header class="masthead">
         <div class="container">
-            <div class="masthead-subheading">Tu seguridad es lo más importante</div>
-            <div class="masthead-heading text-uppercase">Conoce nuestros productos</div>
+            <div class="masthead-subheading">
+                Tu seguridad es lo más importante
+            </div>
+            <div class="masthead-heading text-uppercase">
+                Conoce nuestros productos
+            </div>
             <a class="btn btn-primary btn-xl text-uppercase" href="#services">Conocer Más</a>
         </div>
     </header>
@@ -167,17 +215,24 @@
         <div class="container">
             <div class="text-center">
                 <h2 class="section-heading text-uppercase">Servicios</h2>
-                <h3 class="section-subheading text-muted">Conoce todo lo que tenemos que ofrecerte.</h3>
+                <h3 class="section-subheading text-muted">
+                    Conoce todo lo que tenemos que ofrecerte.
+                </h3>
             </div>
             <div class="row text-center">
                 <div class="col-md-4">
                     <span class="fa-stack fa-4x">
                         <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i>
+                        <i class="
+                                    fas
+                                    fa-shopping-cart fa-stack-1x fa-inverse
+                                "></i>
                     </span>
                     <h4 class="my-3">E-Commerce</h4>
-                    <p class="text-muted">Compra todos nuestros productos a través de la tienda en línea, desde la
-                        comodidad de tu casa</p>
+                    <p class="text-muted">
+                        Compra todos nuestros productos a través de la
+                        tienda en línea, desde la comodidad de tu casa
+                    </p>
                 </div>
                 <div class="col-md-4">
                     <span class="fa-stack fa-4x">
@@ -185,8 +240,12 @@
                         <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
                     </span>
                     <h4 class="my-3">SmartBand</h4>
-                    <p class="text-muted">Nuestra smartband es un dispositivo que se conecta con tu teléfono a través de
-                        una app y envía una señal de alerta a tus contactos al presionar el botón de emergencia</p>
+                    <p class="text-muted">
+                        Nuestra smartband es un dispositivo que se conecta
+                        con tu teléfono a través de una app y envía una
+                        señal de alerta a tus contactos al presionar el
+                        botón de emergencia
+                    </p>
                 </div>
                 <div class="col-md-4">
                     <span class="fa-stack fa-4x">
@@ -194,8 +253,11 @@
                         <i class="fas fa-lock fa-stack-1x fa-inverse"></i>
                     </span>
                     <h4 class="my-3">Ubicación en tiempo real</h4>
-                    <p class="text-muted">Nuestra aplicación móvil envía tu ubicación en tiempo real a tus contactos
-                        trazando un mapa de tu recorrido</p>
+                    <p class="text-muted">
+                        Nuestra aplicación móvil envía tu ubicación en
+                        tiempo real a tus contactos trazando un mapa de tu
+                        recorrido
+                    </p>
                 </div>
             </div>
         </div>
@@ -205,96 +267,151 @@
         <div class="container">
             <div class="text-center">
                 <h2 class="section-heading text-uppercase">Productos</h2>
-                <h3 class="section-subheading text-muted">Elige el estilo que más te guste</h3>
+                <h3 class="section-subheading text-muted">
+                    Elige el estilo que más te guste
+                </h3>
             </div>
             <div class="row">
                 <div class="col-lg-4 col-sm-6 mb-4">
                     <!-- Portfolio item 1-->
                     <div class="portfolio-item">
-                        <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal1">
+                        <a class="portfolio-link" data-bs-toggle="modal" data-color="Dark">
                             <div class="portfolio-hover">
-                                <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                <div class="portfolio-hover-content">
+                                    <i class="fas fa-plus fa-3x"></i>
+                                </div>
                             </div>
                             <img class="img-fluid" src="../static/assets/img/portfolio/dark.jpg" alt="..." />
                         </a>
                         <div class="portfolio-caption">
-                            <div class="portfolio-caption-heading">Dark</div>
-                            <div class="portfolio-caption-subheading text-muted">Diseño clásico</div>
+                            <div class="portfolio-caption-heading">
+                                Dark
+                            </div>
+                            <div class="
+                                        portfolio-caption-subheading
+                                        text-muted
+                                    ">
+                                Diseño clásico
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6 mb-4">
                     <!-- Portfolio item 2-->
                     <div class="portfolio-item">
-                        <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal2">
+                        <a class="portfolio-link" data-bs-toggle="modal" data-color="Ruby">
                             <div class="portfolio-hover">
-                                <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                <div class="portfolio-hover-content">
+                                    <i class="fas fa-plus fa-3x"></i>
+                                </div>
                             </div>
                             <img class="img-fluid" src="../static/assets/img/portfolio/red.jpg" alt="..." />
                         </a>
                         <div class="portfolio-caption">
-                            <div class="portfolio-caption-heading">Ruby</div>
-                            <div class="portfolio-caption-subheading text-muted">Pulsera en un tono rojizo</div>
+                            <div class="portfolio-caption-heading">
+                                Ruby
+                            </div>
+                            <div class="
+                                        portfolio-caption-subheading
+                                        text-muted
+                                    ">
+                                Pulsera en un tono rojizo
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6 mb-4">
                     <!-- Portfolio item 3-->
                     <div class="portfolio-item">
-                        <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal3">
+                        <a class="portfolio-link" data-bs-toggle="modal" data-color="Marine">
                             <div class="portfolio-hover">
-                                <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                <div class="portfolio-hover-content">
+                                    <i class="fas fa-plus fa-3x"></i>
+                                </div>
                             </div>
                             <img class="img-fluid" src="../static/assets/img/portfolio/marine.jpg" alt="..." />
                         </a>
                         <div class="portfolio-caption">
-                            <div class="portfolio-caption-heading">Marine</div>
-                            <div class="portfolio-caption-subheading text-muted">Diseño clásico y elegante </div>
+                            <div class="portfolio-caption-heading">
+                                Marine
+                            </div>
+                            <div class="
+                                        portfolio-caption-subheading
+                                        text-muted
+                                    ">
+                                Diseño clásico y elegante
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6 mb-4 mb-lg-0">
                     <!-- Portfolio item 4-->
                     <div class="portfolio-item">
-                        <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal4">
+                        <a class="portfolio-link" data-bs-toggle="modal" data-color="Grape">
                             <div class="portfolio-hover">
-                                <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                <div class="portfolio-hover-content">
+                                    <i class="fas fa-plus fa-3x"></i>
+                                </div>
                             </div>
                             <img class="img-fluid" src="../static/assets/img/portfolio/purple.webp" alt="..." />
                         </a>
                         <div class="portfolio-caption">
-                            <div class="portfolio-caption-heading">Grape</div>
-                            <div class="portfolio-caption-subheading text-muted">Diseño inspirado en ellas</div>
+                            <div class="portfolio-caption-heading">
+                                Grape
+                            </div>
+                            <div class="
+                                        portfolio-caption-subheading
+                                        text-muted
+                                    ">
+                                Diseño inspirado en ellas
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6 mb-4 mb-sm-0">
                     <!-- Portfolio item 5-->
                     <div class="portfolio-item">
-                        <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal5">
+                        <a class="portfolio-link" data-bs-toggle="modal" data-color="Nature">
                             <div class="portfolio-hover">
-                                <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                <div class="portfolio-hover-content">
+                                    <i class="fas fa-plus fa-3x"></i>
+                                </div>
                             </div>
                             <img class="img-fluid" src="../static/assets/img/portfolio/verde.jpg" alt="..." />
                         </a>
                         <div class="portfolio-caption">
-                            <div class="portfolio-caption-heading">Nature</div>
-                            <div class="portfolio-caption-subheading text-muted">Diseño simple y minimalista</div>
+                            <div class="portfolio-caption-heading">
+                                Nature
+                            </div>
+                            <div class="
+                                        portfolio-caption-subheading
+                                        text-muted
+                                    ">
+                                Diseño simple y minimalista
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <!-- Portfolio item 6-->
                     <div class="portfolio-item">
-                        <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal6">
+                        <a class="portfolio-link" data-bs-toggle="modal" data-color="Radiance">
                             <div class="portfolio-hover">
-                                <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                <div class="portfolio-hover-content">
+                                    <i class="fas fa-plus fa-3x"></i>
+                                </div>
                             </div>
                             <img class="img-fluid" src="../static/assets/img/portfolio/amarillo.jpeg" alt="..." />
                         </a>
                         <div class="portfolio-caption">
-                            <div class="portfolio-caption-heading">Radiance</div>
-                            <div class="portfolio-caption-subheading text-muted">Expresa tus personalidad con colores
+                            <div class="portfolio-caption-heading">
+                                Radiance
+                            </div>
+                            <div class="
+                                        portfolio-caption-subheading
+                                        text-muted
+                                    ">
+                                Expresa tus personalidad con colores
                             </div>
                         </div>
                     </div>
@@ -307,61 +424,77 @@
         <div class="container">
             <div class="text-center">
                 <h2 class="section-heading text-uppercase">Acerca de</h2>
-                <h3 class="section-subheading text-muted">Conoce como funciona nuestra smartband </h3>
+                <h3 class="section-subheading text-muted">
+                    Conoce como funciona nuestra smartband
+                </h3>
             </div>
             <ul class="timeline">
                 <li>
-                    <div class="timeline-image"><img class="rounded-circle img-fluid"
-                            src="../static/assets/img/about/1.jpg" alt="..." /></div>
+                    <div class="timeline-image">
+                        <img class="rounded-circle img-fluid" src="../static/assets/img/about/1.jpg" alt="..." />
+                    </div>
                     <div class="timeline-panel">
                         <div class="timeline-heading">
                             <h4>Conecta</h4>
                             <h4 class="subheading">Tu smartband</h4>
                         </div>
                         <div class="timeline-body">
-                            <p class="text-muted">Conecta tu smartband con la aplicación para sincronizar tu smartphone
-                                con la smartband</p>
+                            <p class="text-muted">
+                                Conecta tu smartband con la aplicación para
+                                sincronizar tu smartphone con la smartband
+                            </p>
                         </div>
                     </div>
                 </li>
                 <li class="timeline-inverted">
-                    <div class="timeline-image"><img class="rounded-circle img-fluid"
-                            src="../static/assets/img/about/2.webp" alt="..." /></div>
+                    <div class="timeline-image">
+                        <img class="rounded-circle img-fluid" src="../static/assets/img/about/2.webp" alt="..." />
+                    </div>
                     <div class="timeline-panel">
                         <div class="timeline-heading">
                             <h4>Descarga</h4>
                             <h4 class="subheading">Nuestra App</h4>
                         </div>
                         <div class="timeline-body">
-                            <p class="text-muted">Descarga la aplicación y crea una cuenta es totalmente gratuita </p>
+                            <p class="text-muted">
+                                Descarga la aplicación y crea una cuenta es
+                                totalmente gratuita
+                            </p>
                         </div>
                     </div>
                 </li>
                 <li>
-                    <div class="timeline-image"><img class="rounded-circle img-fluid"
-                            src="../static/assets/img/about/3.jpg" alt="..." /></div>
+                    <div class="timeline-image">
+                        <img class="rounded-circle img-fluid" src="../static/assets/img/about/3.jpg" alt="..." />
+                    </div>
                     <div class="timeline-panel">
                         <div class="timeline-heading">
                             <h4>Agrega</h4>
-                            <h4 class="subheading">A tus contactos </h4>
+                            <h4 class="subheading">A tus contactos</h4>
                         </div>
                         <div class="timeline-body">
-                            <p class="text-muted">Agrega tus contactos de emergencia con sus números de teléfono de
-                                forma muy sencilla </p>
+                            <p class="text-muted">
+                                Agrega tus contactos de emergencia con sus
+                                números de teléfono de forma muy sencilla
+                            </p>
                         </div>
                     </div>
                 </li>
                 <li class="timeline-inverted">
-                    <div class="timeline-image"><img class="rounded-circle img-fluid"
-                            src="../static/assets/img/about/4.jpg" alt="..." /></div>
+                    <div class="timeline-image">
+                        <img class="rounded-circle img-fluid" src="../static/assets/img/about/4.jpg" alt="..." />
+                    </div>
                     <div class="timeline-panel">
                         <div class="timeline-heading">
                             <h4>Pulsa</h4>
                             <h4 class="subheading">El botón de pánico</h4>
                         </div>
                         <div class="timeline-body">
-                            <p class="text-muted">Pulsa el botón de pánico cuando sea necesario y se enviara tu
-                                ubicación a todos tus contactos de emergencia</p>
+                            <p class="text-muted">
+                                Pulsa el botón de pánico cuando sea
+                                necesario y se enviara tu ubicación a todos
+                                tus contactos de emergencia
+                            </p>
                         </div>
                     </div>
                 </li>
@@ -384,7 +517,9 @@
     <footer class="footer py-4">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-4 text-lg-start">Copyright &copy; Your Website 2021</div>
+                <div class="col-lg-4 text-lg-start">
+                    Copyright &copy; Your Website 2021
+                </div>
                 <div class="col-lg-4 my-3 my-lg-0">
                     <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
                     <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
@@ -398,275 +533,124 @@
         </div>
     </footer>
     <!-- Portfolio Modals-->
+    <!-- Modal -->
+    <div class="modal fade" id="product" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        SmartBand
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <div id="producto"></div>
+                            </div>
+                            <div class="col">
+                                <h1>SmartBand</h1>
+                                <p class="text-justify">
+                                    Conéctala con tu teléfono con una
+                                    aplicación de forma muy sencilla y
+                                    cuando estés en peligro presiona el
+                                    botón de pánico para que envié una
+                                    alerta a los contactos que anteriormente
+                                    has seleccionado en la aplicación
+                                </p>
+                                <h1 class="text-center mt-4">$500</h1>
+                                <div class="container mt-5">
+                                    <div class="row">
+                                        <div class="col">
+                                            <img src="../static/assets/img/pagos/tarjeta-de-debito.png" />
+                                            <br />
+                                            <small>Pagos seguros</small>
+                                        </div>
+                                        <div class="col">
+                                            <img src="../static/assets/img/pagos/enviado.png" />
+                                            <br />
+                                            <small>Envíos seguros</small>
+                                        </div>
+                                        <div class="col">
+                                            <img src="../static/assets/img/pagos/control-de-calidad.png" />
+                                            <br />
+                                            <small>Calidad</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3 align-items-center mt-3">
+                                    <div class="col">
+                                        <input type="number" id="txtcount" class="form-control" value="1" />
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-primary">
+                                            Añadir al carrito
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Portfolio item 1 modal popup-->
-    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg"
-                        alt="Close modal" /></div>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <div class="modal-body">
-                                <!-- Project details-->
-                                <h2 class="text-uppercase">Project Name</h2>
-                                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/1.jpg" alt="..." />
-                                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur
-                                    adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt
-                                    repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae,
-                                    nostrum, reiciendis facere nemo!</p>
-                                <ul class="list-inline">
-                                    <li>
-                                        <strong>Client:</strong>
-                                        Threads
-                                    </li>
-                                    <li>
-                                        <strong>Category:</strong>
-                                        Illustration
-                                    </li>
-                                </ul>
-                                <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal"
-                                    type="button">
-                                    <i class="fas fa-times me-1"></i>
-                                    Close Project
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Portfolio item 2 modal popup-->
-    <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg"
-                        alt="Close modal" /></div>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <div class="modal-body">
-                                <!-- Project details-->
-                                <h2 class="text-uppercase">Project Name</h2>
-                                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/2.jpg" alt="..." />
-                                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur
-                                    adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt
-                                    repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae,
-                                    nostrum, reiciendis facere nemo!</p>
-                                <ul class="list-inline">
-                                    <li>
-                                        <strong>Client:</strong>
-                                        Explore
-                                    </li>
-                                    <li>
-                                        <strong>Category:</strong>
-                                        Graphic Design
-                                    </li>
-                                </ul>
-                                <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal"
-                                    type="button">
-                                    <i class="fas fa-times me-1"></i>
-                                    Close Project
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Portfolio item 3 modal popup-->
-    <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg"
-                        alt="Close modal" /></div>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <div class="modal-body">
-                                <!-- Project details-->
-                                <h2 class="text-uppercase">Project Name</h2>
-                                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/3.jpg" alt="..." />
-                                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur
-                                    adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt
-                                    repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae,
-                                    nostrum, reiciendis facere nemo!</p>
-                                <ul class="list-inline">
-                                    <li>
-                                        <strong>Client:</strong>
-                                        Finish
-                                    </li>
-                                    <li>
-                                        <strong>Category:</strong>
-                                        Identity
-                                    </li>
-                                </ul>
-                                <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal"
-                                    type="button">
-                                    <i class="fas fa-times me-1"></i>
-                                    Close Project
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Portfolio item 4 modal popup-->
-    <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg"
-                        alt="Close modal" /></div>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <div class="modal-body">
-                                <!-- Project details-->
-                                <h2 class="text-uppercase">Project Name</h2>
-                                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/4.jpg" alt="..." />
-                                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur
-                                    adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt
-                                    repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae,
-                                    nostrum, reiciendis facere nemo!</p>
-                                <ul class="list-inline">
-                                    <li>
-                                        <strong>Client:</strong>
-                                        Lines
-                                    </li>
-                                    <li>
-                                        <strong>Category:</strong>
-                                        Branding
-                                    </li>
-                                </ul>
-                                <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal"
-                                    type="button">
-                                    <i class="fas fa-times me-1"></i>
-                                    Close Project
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Portfolio item 5 modal popup-->
-    <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg"
-                        alt="Close modal" /></div>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <div class="modal-body">
-                                <!-- Project details-->
-                                <h2 class="text-uppercase">Project Name</h2>
-                                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/5.jpg" alt="..." />
-                                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur
-                                    adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt
-                                    repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae,
-                                    nostrum, reiciendis facere nemo!</p>
-                                <ul class="list-inline">
-                                    <li>
-                                        <strong>Client:</strong>
-                                        Southwest
-                                    </li>
-                                    <li>
-                                        <strong>Category:</strong>
-                                        Website Design
-                                    </li>
-                                </ul>
-                                <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal"
-                                    type="button">
-                                    <i class="fas fa-times me-1"></i>
-                                    Close Project
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Portfolio item 6 modal popup-->
-    <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg"
-                        alt="Close modal" /></div>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <div class="modal-body">
-                                <!-- Project details-->
-                                <h2 class="text-uppercase">Project Name</h2>
-                                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/6.jpg" alt="..." />
-                                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur
-                                    adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt
-                                    repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae,
-                                    nostrum, reiciendis facere nemo!</p>
-                                <ul class="list-inline">
-                                    <li>
-                                        <strong>Client:</strong>
-                                        Window
-                                    </li>
-                                    <li>
-                                        <strong>Category:</strong>
-                                        Photography
-                                    </li>
-                                </ul>
-                                <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal"
-                                    type="button">
-                                    <i class="fas fa-times me-1"></i>
-                                    Close Project
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Entra a tu cuenta</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Entra a tu cuenta
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form class="">
+                <div class="modal-body text-center">
+                    <form class="" id="login">
                         <div class="form-floating mb-3">
-                            <input type="email" class="form-control rounded-4" id="floatingInput"
-                                placeholder="name@example.com">
+                            <input type="email" class="form-control rounded-4" id="txtemail"
+                                placeholder="name@example.com" />
                             <label for="floatingInput">Correo</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="password" class="form-control rounded-4" id="floatingPassword"
-                                placeholder="Password">
+                            <input type="password" class="form-control rounded-4" id="txtpassword"
+                                placeholder="Password" />
                             <label for="floatingPassword">Contraseña</label>
                         </div>
-                        <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Ingresar</button>
-                        <small class="text-muted">Al continuar aceptas todos los términos de uso de Helpme Store</small>
-                        <hr class="my-4">
-                        <h2 class="fs-5 fw-bold mb-3">¿No tienes una cuenta aun?</h2>
-                        <a class="w-100 mb-2 btn btn-lg rounded-4 btn-success" href="/signup">Regístrate</a>
 
+                        <button class="
+                                    w-100
+                                    mb-2
+                                    btn btn-lg
+                                    rounded-4
+                                    btn-primary
+                                " type="submit">
+                            Ingresar
+                        </button>
+                        <small><a href="#">Olvide la contraseña</a></small>
+                        <br />
+
+                        <small class="text-muted text-center">Al continuar aceptas todos los términos de uso
+                            de Helpme Store</small>
+
+                        <div id="errors"></div>
+                        <hr class="my-4" />
+                        <h2 class="fs-5 fw-bold mb-3">
+                            ¿No tienes una cuenta aun?
+                        </h2>
+                        <a class="
+                                    w-100
+                                    mb-2
+                                    btn btn-lg
+                                    rounded-4
+                                    btn-success
+                                " href="/signup">Regístrate</a>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
@@ -675,11 +659,51 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="../static/js/scripts.js"></script>
+    {% if token==0 %}
+    <script src="../static/js/login.js"></script>
+    {% endif%}
+    <script>
+        var imagenselect = document.getElementById("producto");
+        var myModal = new bootstrap.Modal(
+            document.getElementById("product")
+        );
+        const fotos = document.querySelectorAll(".portfolio-link");
+        fotos.forEach((element) => element.addEventListener("click", data));
+
+        function data() {
+            color = this.dataset.color;
+            console.log(imagenselect);
+            if (color == "Dark") {
+                imagenselect.innerHTML = ` 
+                    <img class="producto" src="../static/assets/img/portfolio/dark.jpg">`;
+            }
+            if (color == "Ruby") {
+                imagenselect.innerHTML = ` 
+                    <img class="producto" src="../static/assets/img/portfolio/red.jpg">`;
+            }
+            if (color == "Marine") {
+                imagenselect.innerHTML = ` 
+                    <img class="producto" src="../static/assets/img/portfolio/marine.jpg">`;
+            }
+            if (color == "Grape") {
+                imagenselect.innerHTML = ` 
+                    <img class="producto" src="../static/assets/img/portfolio/purple.webp">`;
+            }
+            if (color == "Nature") {
+                imagenselect.innerHTML = ` 
+                    <img class="producto" src="../static/assets/img/portfolio/verde.jpg">`;
+            }
+            if (color == "Radiance") {
+                imagenselect.innerHTML = ` 
+                    <img class="producto" src="../static/assets/img/portfolio/amarillo.jpeg">`;
+            }
+            myModal.show();
+        }
+    </script>
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
     <!-- * *                               SB Forms JS                               * *-->
     <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 
 </html>

@@ -9,15 +9,26 @@ app.secret_key=os.environ.get('secret_key')
 @app.route('/')
 def index():
     user=0
+    data={}
     if g.user:
         user=1
-    return render_template('index.html',token=user)
+        data =session['user']
+    return render_template('index.html',token=user,user_data=data)
 
 @app.before_request
 def before_request():
     g.user=None
     if 'user' in session:
         g.user=session['user']
+
+@app.route("/signin",methods=["POST"])
+def signin():
+    if request.method=="POST":
+        response=user.user().LogIn(request.get_json())
+        if response!=False:
+            return savesession(response)
+        return jsonify({"response":0})
+
 @app.route("/signup",methods=["POST","GET"])
 def signup():
     if request.method=="POST":
@@ -38,9 +49,9 @@ def signup_before(response):
         return jsonify({'response':0})
     return savesession(response)
 
-def savesession(idlocal):
+def savesession(data):
     session.pop('user',None)
-    session["user"]=idlocal
+    session["user"]=data
     return jsonify({'response':1})
 
 if __name__ =="__main__":
