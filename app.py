@@ -13,7 +13,9 @@ def index():
     if g.user:
         user=1
         data =session['user']
-    return render_template('index.html',token=user,user_data=data)
+    cart=getCart()
+    num_pro=len(cart)
+    return render_template('index.html',token=user,user_data=data,carrito=cart,items=num_pro)
 
 @app.before_request
 def before_request():
@@ -43,6 +45,18 @@ def logout():
     session.pop('user', None)
     return redirect(url_for('index'))
 
+@app.route('/addcart',methods=["POST"])
+def addcart():
+    data=request.get_json()
+    carrito=[]
+    if 'car_item' in session:
+        carrito = session['car_item']
+        carrito.append(data)
+        session['car_item'] = carrito
+    else:
+        array = [data]
+        session['car_item'] = array
+    return jsonify({"response":session["car_item"]})
 
 def signup_before(response):
     if response==False:
@@ -53,6 +67,16 @@ def savesession(data):
     session.pop('user',None)
     session["user"]=data
     return jsonify({'response':1})
+
+def getCart():
+    if 'car_item' in session:
+        try:
+            return session['car_item']
+        except Exception as e :
+            pass
+    return []
+
+
 
 if __name__ =="__main__":
     app.run(port=5000, debug=True)
