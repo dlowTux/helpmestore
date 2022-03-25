@@ -72,19 +72,35 @@ const UpdateCartContainer = (response) => {
     let number = 0;
     let cart_items = document.getElementById("items_cart");
     cart_items.innerHTML = "";
-
+    price = 0
     response["response"].forEach((item) => {
+
         cart_items.innerHTML += DrwaItem(item, number);
+        price += parseInt(item["amount"]) * 500
         number++;
     });
     if (number == 0) {
         //message to no product in the shopping car
         cart_items.innerHTML = "<h3>Añade productos a tu carrito para poder visualizarlos</h3>"
     } else {
+        let buttom = document.getElementById("buttom")
+
+        buttom.innerHTML = `
+        <div>
+                    <button class="btn size">
+                        <h5 class="">Total de ${price}</h5>
+                    </button>
+                </div>
+                <a class="btn btn-primary size" href="/checkout">
+                    <h5>Continuar</h5>
+                </a>
+        `
+
         const updateb = document.querySelectorAll(".update");
         updateb.forEach((element) => element.addEventListener("click", data));
         const deletebuttons = document.querySelectorAll(".delete");
         deletebuttons.forEach((element) => element.addEventListener("click", datadelete));
+
     }
 
 }
@@ -144,6 +160,8 @@ const DrwaItem = (pro, number) => {
                                 </small>
 
                             </button>
+                         <p class="mt-2 h5">$${pro["amount"] * 500}</p>
+
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 from flask import Flask,render_template,session,g,request,jsonify,redirect,url_for
 import os
-
+import cart
 import user
 
 
@@ -13,10 +13,10 @@ def index():
     if g.user:
         user=1
         data =session['user']
-    cart=getCart()
-    print(cart)
-    num_pro=len(cart)
-    return render_template('index.html',token=user,user_data=data,carrito=cart,items=num_pro)
+    cart_=getCart()
+    num_pro=len(cart_)
+    p=cart.cart().CalculatePrice(cart_)
+    return render_template('index.html',price=p,token=user,user_data=data,carrito=cart_,items=num_pro)
 
 @app.before_request
 def before_request():
