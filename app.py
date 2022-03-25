@@ -80,6 +80,20 @@ def addmorecart(number):
         session["car_item"]=carrito
     return jsonify({"response":session["car_item"]})
 
+@app.route("/lessproduct/<number>")
+def lessproduct(number):
+    carrito=[]
+    if "car_item" in session:
+        carrito=session["car_item"]
+        amount=carrito[int(number)]["amount"]
+        amount=int(amount)
+        if (amount-1)>0:
+            carrito[int(number)]["amount"]=amount-1;
+        else:
+            carrito.pop(number)
+        session["car_item"]=carrito
+    return jsonify({"response":session["car_item"]})
+
 
 def signup_before(response):
     if response==False:

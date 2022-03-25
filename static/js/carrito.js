@@ -55,6 +55,18 @@ const UpdateCart = (number) => {
             UpdateCartContainer(response)
         });
 };
+const LessCart = (number) => {
+    fetch("/lessproduct/" + number, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => response.json())
+        .then((response) => {
+            UpdateCartContainer(response)
+        });
+};
 const UpdateCartContainer = (response) => {
     //Redo the car var
     let number = 0;
@@ -71,12 +83,22 @@ const UpdateCartContainer = (response) => {
     } else {
         const updateb = document.querySelectorAll(".update");
         updateb.forEach((element) => element.addEventListener("click", data));
-
+        const deletebuttons = document.querySelectorAll(".delete");
+        deletebuttons.forEach((element) => element.addEventListener("click", datadelete));
     }
+
 }
 const updatebuttons = document.querySelectorAll(".update");
 updatebuttons.forEach((element) => element.addEventListener("click", data));
 
+const deletebuttons = document.querySelectorAll(".delete");
+deletebuttons.forEach((element) => element.addEventListener("click", datadelete));
+
+function datadelete() {
+    position_array = this.dataset.id;
+    LessCart(position_array);
+
+}
 
 function data() {
     position_array = this.dataset.id;
@@ -112,7 +134,7 @@ const DrwaItem = (pro, number) => {
                                     </svg></small>
 
                             </button>
-                            <a class="btn btn-danger mt-2" href="">
+                            <button class="btn btn-danger mt-2 delete" data-id="${number}">
                                 <small>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-file-minus-fill" viewBox="0 0 16 16">
@@ -121,7 +143,7 @@ const DrwaItem = (pro, number) => {
                                     </svg>
                                 </small>
 
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
