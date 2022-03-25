@@ -15,8 +15,9 @@ def index():
         data =session['user']
     cart_=getCart()
     num_pro=len(cart_)
-    p=cart.cart().CalculatePrice(cart_)
-    return render_template('index.html',price=p,token=user,user_data=data,carrito=cart_,items=num_pro)
+    p,pre=cart.cart().CalculatePrice(cart_)
+    
+    return render_template('index.html',precies=pre,price=p,token=user,user_data=data,carrito=cart_,items=num_pro)
 
 @app.before_request
 def before_request():
@@ -94,6 +95,14 @@ def lessproduct(number):
         session["car_item"]=carrito
     return jsonify({"response":session["car_item"]})
 
+@app.route("/checkout")
+def checkout():
+    user=0
+    data=None
+    if g.user:
+        user=1
+        data =session['user']
+    return render_template('checkout.html',isuser=user,data_user=data)
 
 def signup_before(response):
     if response==False:

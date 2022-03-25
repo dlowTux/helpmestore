@@ -38,7 +38,7 @@
         }
 
         .size {
-            width: 19%;
+            width: 360px;
         }
 
         @media (min-width: 768px) {
@@ -50,6 +50,10 @@
         @media (max-width: 768px) {
             .producto {
                 width: 300px;
+            }
+
+            .size {
+                width: 90%;
             }
         }
     </style>
@@ -81,7 +85,14 @@
                         <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal">Ingresa</a>
                         {% else %}
                         <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-                            aria-controls="offcanvasExample">Mi cuenta</a>
+                            aria-controls="offcanvasExample">
+                            <small><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-person-circle" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                                    <path fill-rule="evenodd"
+                                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                                </svg></small>
+                            Mi cuenta</a>
                         {% endif%}
                     </li>
                     <li class="nav-item">
@@ -135,7 +146,7 @@
                                     </small>
                                 </button>
                                 <p class="mt-2 h5">
-                                    ${{carrito[pro]["amount"]*500}}
+                                    ${{500*precies[pro]}}
                                 </p>
                             </div>
                         </div>
@@ -144,22 +155,26 @@
                         <a class="link-danger" href="/removeitem/{{pro}}">Eliminar</a>
                     </div>
                 </div>
-                {% endfor %} {% else %}
+                {% endfor %}
+
+                {% else %}
                 <h3>
                     Añade productos a tu carrito para poder visualizarlos
                 </h3>
                 {% endif%}
             </div>
+            {% if items > 0 %}
             <div class="bottom" id="buttom">
                 <div>
                     <button class="btn size">
                         <h5 class="">Total de ${{price}}</h5>
                     </button>
                 </div>
-                <button class="btn btn-primary size">
+                <a class="btn btn-primary size" href="/checkout">
                     <h5>Continuar</h5>
-                </button>
+                </a>
             </div>
+            {% endif %}
         </div>
     </div>
     <!--Offcanvas-->
