@@ -14,6 +14,7 @@ def index():
         user=1
         data =session['user']
     cart=getCart()
+    print(cart)
     num_pro=len(cart)
     return render_template('index.html',token=user,user_data=data,carrito=cart,items=num_pro)
 
@@ -66,6 +67,19 @@ def RemoveItemFromCart(number):
         carrito.pop(int(number))
         session["car_item"]=carrito
     return redirect(url_for('index'))
+
+@app.route("/addmore/<number>")
+def addmorecart(number):
+    carrito=[]
+    if 'car_item' in session:
+        carrito=session["car_item"]
+
+        amount=carrito[int(number)]["amount"]
+        amount=int(amount)
+        carrito[int(number)]["amount"]=amount+1;
+        session["car_item"]=carrito
+    return jsonify({"response":session["car_item"]})
+
 
 def signup_before(response):
     if response==False:

@@ -1,4 +1,3 @@
-
 let cartform = document.getElementById("cart");
 var txtcount = document.getElementById("txtcount");
 var load = document.getElementById("load");
@@ -28,9 +27,9 @@ const AddCart = (data) => {
     })
         .then((response) => response.json())
         .then((response) => {
-            console.log(response)
+            console.log(response);
             cartform.reset();
-            ShowMessage()
+            ShowMessage();
         });
 };
 
@@ -42,10 +41,47 @@ const ShowLoaderIndicator = () => {
     `;
 };
 const ShowMessage = () => {
-
     location.reload();
-
 };
+const UpdateCart = (number) => {
+    fetch("/addmore/" + number, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => response.json())
+        .then((response) => {
+            UpdateCartContainer(response)
+        });
+};
+const UpdateCartContainer = (response) => {
+    //Redo the car var
+    let number = 0;
+    let cart_items = document.getElementById("items_cart");
+    cart_items.innerHTML = "";
+
+    response["response"].forEach((item) => {
+        cart_items.innerHTML += DrwaItem(item, number);
+        number++;
+    });
+    if (number == 0) {
+        //message to no product in the shopping car
+        cart_items.innerHTML = "<h3>Añade productos a tu carrito para poder visualizarlos</h3>"
+    } else {
+        const updateb = document.querySelectorAll(".update");
+        updateb.forEach((element) => element.addEventListener("click", data));
+
+    }
+}
+const updatebuttons = document.querySelectorAll(".update");
+updatebuttons.forEach((element) => element.addEventListener("click", data));
+
+
+function data() {
+    position_array = this.dataset.id;
+    UpdateCart(position_array);
+}
 
 const Photo = {
     Dark: "../static/assets/img/portfolio/dark.jpg",
@@ -54,5 +90,46 @@ const Photo = {
     Grape: "../static/assets/img/portfolio/purple.webp",
     Nature: "../static/assets/img/portfolio/verde.jpg",
     Radiance: "../static/assets/img/portfolio/amarillo.jpeg",
+};
+
+const DrwaItem = (pro, number) => {
+    let cards = `
+    <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <img src="${pro["photo"]}" width="100%" height="100%" />
+                        </div>
+                        <div class="col">
+                            SmartBand ${pro["color"]}
+                            <input type="number" class="mt-1 form-control" value="${pro["amount"]}"
+                                readonly />
+                            <button class="btn btn-success mt-2 update" data-id="${number}">
+                                <small><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z" />
+                                    </svg></small>
+
+                            </button>
+                            <a class="btn btn-danger mt-2" href="">
+                                <small>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-file-minus-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM6 7.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1 0-1z" />
+                                    </svg>
+                                </small>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <a class="link-danger" href='/removeitem/${number}'>Eliminar</a>
+                </div>
+            </div>
+    `;
+    return cards;
 };
 
