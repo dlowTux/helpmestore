@@ -58,6 +58,15 @@ def addcart():
         session['car_item'] = array
     return jsonify({"response":session["car_item"]})
 
+@app.route("/removeitem/<number>")
+def RemoveItemFromCart(number):
+    carrito=[]
+    if 'car_item' in session:
+        carrito=session["car_item"]
+        carrito.pop(int(number))
+        session["car_item"]=carrito
+    return redirect(url_for('index'))
+
 def signup_before(response):
     if response==False:
         return jsonify({'response':0})
@@ -75,7 +84,6 @@ def getCart():
         except Exception as e :
             pass
     return []
-
 
 
 if __name__ =="__main__":

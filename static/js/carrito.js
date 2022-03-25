@@ -1,14 +1,15 @@
-var cart = document.getElementById("cart");
+
+let cartform = document.getElementById("cart");
 var txtcount = document.getElementById("txtcount");
 var load = document.getElementById("load");
 var toastLiveExample = document.getElementById("liveToast");
 
-cart.addEventListener("submit", (e) => {
+cartform.addEventListener("submit", (e) => {
     e.preventDefault();
-    AddCart(GetData());
+    AddCart(GetDatCarForm());
 });
-const GetData = () => {
-    ShowLoader();
+const GetDatCarForm = () => {
+    ShowLoaderIndicator();
     const data = JSON.stringify({
         color: color,
         amount: txtcount.value,
@@ -27,12 +28,13 @@ const AddCart = (data) => {
     })
         .then((response) => response.json())
         .then((response) => {
-            cart.reset();
+            console.log(response)
+            cartform.reset();
             ShowMessage()
         });
 };
 
-const ShowLoader = () => {
+const ShowLoaderIndicator = () => {
     load.innerHTML = ` 
      <div class="spinner-border" role="status">
   <span class="visually-hidden">Loading...</span>
@@ -53,3 +55,4 @@ const Photo = {
     Nature: "../static/assets/img/portfolio/verde.jpg",
     Radiance: "../static/assets/img/portfolio/amarillo.jpeg",
 };
+
