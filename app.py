@@ -97,12 +97,24 @@ def lessproduct(number):
 
 @app.route("/checkout")
 def checkout():
-    user=0
+    user_=0
     data=None
     if g.user:
-        user=1
+        user_=1
         data =session['user']
-    return render_template('checkout.html',isuser=user,data_user=data)
+        #Check For optinonal data
+        data["adress"],data["phone"]=user.user().CheckOptionalData(data)
+        len_adresses=len(data["adress"])
+    cart_=getCart()
+    num_pro=len(cart_)
+    p,pre=cart.cart().CalculatePrice(cart_)
+
+    return render_template('checkout.html',
+            carrito=cart_,
+            len_carrito=num_pro,
+            total=p,
+            sub_total=pre,
+            isuser=user_,data_user=data,len_d=len_adresses)
 
 def signup_before(response):
     if response==False:
