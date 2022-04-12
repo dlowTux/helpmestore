@@ -35,7 +35,23 @@ class database:
         except:
             return False
         return True
-    
+
+    def registersell(self,data):
+        try:
+            db =self.firebase.database()
+            db.child("sells").push(data)
+        except:
+            return False
+        return True
+
+    def UpdateUserInfo(self,data_user):
+        try:
+            db=self.firebase.database()
+            db.child("users").child(data_user["uuid"]).update(data_user)
+        except:
+            return False
+        return True
+
     def SignIn(self,data):
         try:
             user=self.auth.sign_in_with_email_and_password(data["email"],data["password"])
@@ -53,4 +69,5 @@ class database:
                 user_["uuid"]=user.key()
                 return user_
         return None
+  
 

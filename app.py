@@ -146,6 +146,7 @@ def public_keys():
 @app.route("/create-payment-intent", methods=['POST'])
 def create_payment():
     if g.user:
+        print(session["user"])
         try:   
             return client()
         except Exception as e:
@@ -194,7 +195,12 @@ def addcards():
     return jsonify({'sin_tarjeta':0,'clientSecret': intent['client_secret']})
 
 
-
+@app.route("/checkoutsave", methods=["POST"])
+def checkoutsave():
+    if g.user:
+        data=request.get_json();
+        user.user().SaveSell(data,session['user'])
+    return jsonify({"response":"Respuesta"})
 
 @app.route('/paymentcomplete')
 def paymentcomplete():
