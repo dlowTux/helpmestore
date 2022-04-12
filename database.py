@@ -43,7 +43,7 @@ class database:
         except:
             return False
         return True
-
+    
     def UpdateUserInfo(self,data_user):
         try:
             db=self.firebase.database()

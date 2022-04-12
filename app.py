@@ -107,6 +107,7 @@ def checkout():
         data =session['user']
         #Check For optinonal data
         data["adress"],data["phone"]=user.user().CheckOptionalData(data)
+        print(data)
     cart_=getCart()
     len_adress=len(data["adress"])
     num_pro=len(cart_)
@@ -146,7 +147,6 @@ def public_keys():
 @app.route("/create-payment-intent", methods=['POST'])
 def create_payment():
     if g.user:
-        print(session["user"])
         try:   
             return client()
         except Exception as e:
@@ -194,7 +194,29 @@ def addcards():
             )
     return jsonify({'sin_tarjeta':0,'clientSecret': intent['client_secret']})
 
+@app.route("/payall", methods=["POST"])
+def payall():
+    p,pre=cart.cart().CalculatePrice(getCart())
+    p=int (round(p/19.95,1))
+    card=request.get_json()
+    try:
+        cards=stripe.PaymentMethod.list(customer=session['user']['client'], type="card")
+        print(cards)
+        intent = stripe.PaymentIntent.create(
+                customer=session['user']["client"],
+                payment_method=cards["data"][int(card["tarjeta"])],
+                off_session=True,
+                confirm=True,
+                amount=p*100,
+                currency='usd',
+                )
+        return jsonify({"response":intent["client_secret"]})
+    except Exception as e:
+        print("Error", e)
+        pass
+    return jsonify({"Error":"Error"})
 
+    
 @app.route("/checkoutsave", methods=["POST"])
 def checkoutsave():
     if g.user:
@@ -205,6 +227,15 @@ def checkoutsave():
 @app.route('/paymentcomplete')
 def paymentcomplete():
     return render_template('paymentcomplete.html')
-
+@app.route('/getAdresses')
+def getAdresses():
+    if g.user:
+        return jsonify({"response":session["user"]["adress"]})
+@app.route('/addadress',methods=["POST"])
+def addadress():
+    if g.user:
+        nuser=user.user().AddAdress(request.get_json(),session["user"])
+        session["user"]=nuser
+        return jsonify({"response":session["user"]})
 if __name__ =="__main__":
     app.run(port=80,host="0.0.0.0", debug=True, ssl_context=("/cert.pem", "/key.pem"))

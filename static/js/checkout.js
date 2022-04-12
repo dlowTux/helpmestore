@@ -1,3 +1,4 @@
+var url = "https://172.17.0.2:80/paymentcomplete"
 var stripe;
 let inputs;
 let con_tarjetas = false
@@ -111,12 +112,9 @@ const PayWithOutCard = (data) => {
 }
 async function handleSubmit() {
 
-    setLoading(true);
 
-
-    await SaveForm();
-
-    setLoading(false);
+    SaveForm();
+    //setLoading(false);
 }
 
 // Fetches the payment intent status after payment submission
@@ -149,6 +147,7 @@ async function checkStatus() {
 
 const SaveForm = async () => {
 
+
     var telefono = document.getElementById("txtnumber").value;
     var objet = {
         "telefono": telefono,
@@ -157,29 +156,53 @@ const SaveForm = async () => {
     direcciones = document.getElementById("direcciones")
     if (direcciones == null) {
         //No hay direcciones registradas aun por lo que debemos de resolver el formulario
-        objet["adress"] = {
-            "calle": document.getElementById("txt_calle").value,
-            "num_exte": document.getElementById("txtnumexterior").value,
-            "num_inter": document.getElementById("txtnuminterior").value,
-            "estado": document.getElementById("txtestado").value,
-            "municipio": document.getElementById("txtminicipio").value,
-            "colonia": document.getElementById("txtcolonia").value,
-            "cp": document.getElementById("txtpostal").value,
-            "referencia": document.getElementById("txtreferencia").value
-        }
+
+        objet["adress"] = LeerFormularioDirecciones()
+
     } else {
         //Aqui seleccionamos una de la lista
+        document.querySelectorAll("#txtdirecciones").forEach((radio) => {
+            console.log(radio)
+            if (radio.checked) {
+                if (parseInt(radio.value) == direction.length) {
+                    //Debemos de leer el formulario
+                    objet["adress"] = LeerFormularioDirecciones()
+                } else {
+                    objet["adress"] = direction[parseInt(radio.value)]
+                }
+            }
+        })
     }
     if (con_tarjetas) {
+        await senddatas(objet)
         //Registramos el pago manualmente
         var pago = document.querySelectorAll("#pago_tarjeta");
         pago.forEach((card) => {
             if (card.checked) {
-                objet["card"] = card.value
+
+                fetch('/payall', {
+
+                    method: "POST", body: JSON.stringify({tarjeta: card.value}),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }).then((data) => data.json())
+                    .then((data) => {
+                        const clientSecret = data["clientSecret"];
+                        const appearance = {
+                            theme: 'stripe',
+                        };
+                        elements = stripe.elements({appearance, clientSecret});
+
+
+                    }).then(() => {
+                        window.location.href = url;
+                    })
+                //card.value
+                //Obtenemos la tarjeta y pagamos
             }
         })
-        //Aqui ya tendriamos que hacer la peticion al backend
-        //Para hacer el pago 
+
 
     }
     else {
@@ -190,10 +213,24 @@ const SaveForm = async () => {
 
     }
 
+    setLoading(false);
 
+}
+const LeerFormularioDirecciones = () => {
+    return {
+        "calle": document.getElementById("txt_calle").value,
+        "num_exte": document.getElementById("txtnumexterior").value,
+        "num_inter": document.getElementById("txtnuminterior").value,
+        "estado": document.getElementById("txtestado").value,
+        "municipio": document.getElementById("txtminicipio").value,
+        "colonia": document.getElementById("txtcolonia").value,
+        "cp": document.getElementById("txtpostal").value,
+        "referencia": document.getElementById("txtreferencia").value
+    }
 }
 const senddata = async (data) => {
     fetch('/checkoutsave', {
+        //Obtenemos la tarjeta y pagamos
         method: "POST",
         body: JSON.stringify(data),
         headers: {
@@ -204,12 +241,25 @@ const senddata = async (data) => {
         Pay()
     })
 }
+const senddatas = async (data) => {
+    fetch('/checkoutsave', {
+        //Obtenemos la tarjeta y pagamos
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }).then((data) => data.json()).then((data) => {
+        console.log(data)
+        //Pay()
+    })
+}
 const Pay = async () => {
     const {error} = await stripe.confirmPayment({
         elements,
         confirmParams: {
             // Make sure to change this to your payment completion page
-            return_url: "https://172.17.0.2:80/paymentcomplete",
+            return_url: url,
         },
     });
     console.log(error)

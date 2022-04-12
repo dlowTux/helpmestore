@@ -3,6 +3,12 @@ import database
 import stripe
 import sells
 class user:
+
+    def AddAdress(self,data,user):
+        user["adress"].append(data)
+        database.database().UpdateUserInfo(user)
+        return user
+
     def CreateAccount(self,data):
         response=database.database().CreateUserWithEmail(data)
         if response!=False:
@@ -22,12 +28,17 @@ class user:
             return False
         return True
     def CheckOptionalData(self,data):
+        
         return self.CheckAdress(data), self.CheckPhoneNumber(data)
 
     def CheckPhoneNumber(self,data):
-        if self.CheckAtribute(data,"phone"): 
+        try:
+            print("Phone" )
             return data["phone"]
-        return ""
+        except:
+            return ""
+     
+
     def CheckAdress(self,data):
         if self.CheckAtribute(data,"adress"):
             return data["adress"]
@@ -45,8 +56,10 @@ class user:
 
     def SaveSell(self,data,user):
         user_data=database.database().SearchByLocalID(user["localId"])
+        user_data["phone"]=data["telefono"]
         if self.HasDirection(user_data):
-            user_data["adress"].append(data["adress"])
+            if self.SaveDirection(data,user_data):
+                user_data["adress"].append(data["adress"])
         else:
             user_data["adress"]=[data["adress"]]
 
@@ -62,6 +75,14 @@ class user:
                 "client":user["client"]
                 }
         sells.seell().SaveSell(data)
+
+    def SaveDirection(self,data,user):
+        
+        for x in user["adress"]:
+            if x==data["adress"]:
+                print("No es nueva")
+                return False
+        return True
 
     def HasIDCustumber(self,user_data):
         try:

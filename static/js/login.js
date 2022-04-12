@@ -51,7 +51,7 @@ const ShowLoader = () => {
 };
 
 const ShowMessageError = () => {
-    error.innerHTML = `<div class="alert alert-danger" role="alert">Error el correo ya esta registrado</div>`;
+    error.innerHTML = `<div class="alert alert-danger" role="alert">Correo o contraseña incorrectos</div>`;
 };
 
 
