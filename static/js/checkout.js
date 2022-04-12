@@ -1,4 +1,5 @@
 var stripe;
+let inputs;
 fetch('/keys')
     .then((response) => response.json())
     .then((data) => {
@@ -46,8 +47,7 @@ async function initialize() {
 
 }
 const PayWithCards = (data) => {
-    console.log(data)
-    var contenedor = document.getElementById("payment-element");
+    var contenedor = document.getElementById("cards");
     data["cards"].map((card) => {
         contenedor.innerHTML += `
         <div class="form-check">
@@ -64,12 +64,32 @@ const PayWithCards = (data) => {
 </div>
    `
 
+    InputPay();
 
+}
+
+const InputPay = () => {
+    inputs = document.querySelectorAll("#pago_tarjeta");
+    var frame = document.getElementById("payment-element")
+    inputs.forEach((radio) => {
+        if (radio != inputs[inputs.length - 1]) {
+            radio.addEventListener('click', () => {
+                frame.innerHTML = ""
+            })
+        }
+    })
+    inputs[inputs.length - 1].addEventListener("click", () => {
+        fetch('/newcard', {
+            method: "POST"
+        }).then((data) => data.json()).then((data) => {
+            PayWithOutCard(data)
+        }
+        )
+    })
 
 }
 const PayWithOutCard = (data) => {
     const clientSecret = data["clientSecret"];
-    console.log(clientSecret)
     const appearance = {
         theme: 'stripe',
     };

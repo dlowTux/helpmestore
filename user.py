@@ -30,7 +30,7 @@ class user:
     def CheckAdress(self,data):
         if self.CheckAtribute(data,"adress"):
             return data["adress"]
-        return {"calle":"","num_exte":"","num_inter":"","estado":"", "minicipio":"","colonia":"","cp":"","referencia":""}
+        return [] 
 
     def CheckIDCustumber(self,data):
         try:

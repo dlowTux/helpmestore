@@ -108,10 +108,12 @@ def checkout():
         #Check For optinonal data
         data["adress"],data["phone"]=user.user().CheckOptionalData(data)
     cart_=getCart()
+    len_adress=len(data["adress"])
     num_pro=len(cart_)
     p,pre=cart.cart().CalculatePrice(cart_)
 
     return render_template('checkout.html',
+            len_a=len_adress,
             carrito=cart_,
             len_carrito=num_pro,
             total=p,
@@ -155,8 +157,6 @@ def client():
         customer=stripe.Customer.create();
         p,pre=cart.cart().CalculatePrice(getCart())
         p=int (round(p/19.95,1))
-
-
         # Create a PaymentIntent with the order amount and currency
         intent = stripe.PaymentIntent.create(
                 customer=customer['id'],
@@ -167,7 +167,6 @@ def client():
         users=session["user"]
         users["client"]=customer["id"]
         session["user"]=users
-        print(session['user'])
         return jsonify({'sin_tarjeta':0,
                 'clientSecret': intent['client_secret']
                 })
@@ -180,7 +179,22 @@ def client():
             })
                 
     
-    
+
+@app.route('/newcard', methods=["POST"])
+def addcards():
+    p,pre=cart.cart().CalculatePrice(getCart())
+    p=int (round(p/19.95,1))
+    # Create a PaymentIntent with the order amount and currency
+    intent = stripe.PaymentIntent.create(
+            customer=session['user']["client"],
+            setup_future_usage='off_session',
+            amount=p*100,
+            currency='usd',
+            )
+    return jsonify({'sin_tarjeta':0,'clientSecret': intent['client_secret']})
+
+
+
 
 @app.route('/paymentcomplete')
 def paymentcomplete():

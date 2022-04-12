@@ -126,6 +126,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% if len_a == 0%}
                         <div class="col-12">
                             <label for="username" class="form-label"
                                 >Calle</label
@@ -135,7 +136,6 @@
                                     type="text"
                                     class="form-control"
                                     id="txt_calle"
-                                    value="{{data_user["adress"]["calle"]}}"
                                     required
                                 />
                                 <div class="invalid-feedback">
@@ -153,7 +153,6 @@
                                     class="form-control"
                                     id="txtnumexterior"
                                     required
-                                    value="{{data_user["adress"]["num_exte"]}}"
                                 />
                                 <div class="invalid-feedback">
                                     Dato requirido
@@ -171,7 +170,6 @@
                             <input type="text" class="form-control"
                             id="txtnuminterior"
 
-                            value="{{data_user["adress"]["num_inter"]}}"
                             />
                         </div>
                         
@@ -183,8 +181,7 @@
                                     type="text"
                                     class="form-control"
                                     id="txtestado"
-
-                                    value="{{data_user["adress"]["estado"]}}"
+                                    required
                                 />
                             </div>
                             <div class="col-sm-6">
@@ -195,8 +192,7 @@
                                     type="text"
                                     class="form-control"
                                     id="txtminicipio"
-
-                                    value="{{data_user["adress"]["municipio"]}}"
+                                    required
                                 />
                             </div>
                              <div class="col-sm-6">
@@ -207,8 +203,7 @@
                                     type="text"
                                     class="form-control"
                                     id="txtcolonia"
-
-                                    value="{{data_user["adress"]["colonia"]}}"
+                                    required
                                 />
                             </div>
                         
@@ -221,8 +216,7 @@
                                     type="text"
                                     class="form-control"
                                     id="txtpostal"
-
-                                    value="{{data_user["adress"]["cp"]}}"
+                                    required
                                 />
                             </div>
                             <div class="col-12">
@@ -233,20 +227,21 @@
                                     <textarea
                                         class="form-control"
                                         placeholder="Da una descripción del lugar"
-
-                                        value="{{data_user["adress"]["referencia"]}}"
+                                        required
                                         id="txtreferencia"
                                     ></textarea>
                                 </div>
                             </div>
-                        
+                            {%else%}
+
+                            {%endif%}
 
                     </div>
 
                     <hr class="my-4" />
 
                     <h4 class="mb-3">Pagos</h4>
-
+                    <div id="cards"></div>
                     <div id="payment-element"></div>
                     <div id="payment-message"></div>
 
