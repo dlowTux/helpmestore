@@ -1,11 +1,14 @@
 from flask import Flask,render_template,session,g,request,jsonify,redirect,url_for
 import os
+
+from stripe.api_resources import customer
 import cart
 import user
-
-
+import stripe
+import json
 app=Flask(__name__)
 app.secret_key=os.environ.get('secret_key')
+stripe.api_key = os.environ.get('key')
 @app.route('/')
 def index():
     user=0
@@ -104,7 +107,6 @@ def checkout():
         data =session['user']
         #Check For optinonal data
         data["adress"],data["phone"]=user.user().CheckOptionalData(data)
-        len_adresses=len(data["adress"])
     cart_=getCart()
     num_pro=len(cart_)
     p,pre=cart.cart().CalculatePrice(cart_)
@@ -114,7 +116,7 @@ def checkout():
             len_carrito=num_pro,
             total=p,
             sub_total=pre,
-            isuser=user_,data_user=data,len_d=len_adresses)
+            isuser=user_,data_user=data)
 
 def signup_before(response):
     if response==False:
@@ -134,6 +136,55 @@ def getCart():
             pass
     return []
 
+@app.route("/keys")
+def public_keys():
+    return jsonify({'key':os.environ.get('public_key')})
+
+
+@app.route("/create-payment-intent", methods=['POST'])
+def create_payment():
+    if g.user:
+        try:   
+            return client()
+        except Exception as e:
+            print(e)
+            return jsonify(error=str(e))
+
+def client():
+    if user.user().CheckIDCustumber(session['user'])==False:
+        customer=stripe.Customer.create();
+        p,pre=cart.cart().CalculatePrice(getCart())
+        p=int (round(p/19.95,1))
+
+
+        # Create a PaymentIntent with the order amount and currency
+        intent = stripe.PaymentIntent.create(
+                customer=customer['id'],
+                setup_future_usage='off_session',
+                amount=p*100,
+                currency='usd',
+                )
+        users=session["user"]
+        users["client"]=customer["id"]
+        session["user"]=users
+        print(session['user'])
+        return jsonify({'sin_tarjeta':0,
+                'clientSecret': intent['client_secret']
+                })
+
+    else:
+        cards= stripe.PaymentMethod.list(customer=session["user"]["client"], type="card") 
+        return jsonify({
+            'sin_tarjeta':1,
+            'cards': cards['data']
+            })
+                
+    
+    
+
+@app.route('/paymentcomplete')
+def paymentcomplete():
+    return render_template('paymentcomplete.html')
 
 if __name__ =="__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=80,host="0.0.0.0", debug=True, ssl_context=("/cert.pem", "/key.pem"))

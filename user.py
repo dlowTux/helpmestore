@@ -1,4 +1,6 @@
+from app import client
 import database
+import stripe
 class user:
     def CreateAccount(self,data):
         response=database.database().CreateUserWithEmail(data)
@@ -28,4 +30,15 @@ class user:
     def CheckAdress(self,data):
         if self.CheckAtribute(data,"adress"):
             return data["adress"]
-        return []
+        return {"calle":"","num_exte":"","num_inter":"","estado":"", "minicipio":"","colonia":"","cp":"","referencia":""}
+
+    def CheckIDCustumber(self,data):
+        try:
+            data["client"]
+            cards= stripe.PaymentMethod.list(customer=data["client"], type="card") 
+            if len(cards["data"])>0:
+                return True
+            return False
+        except :
+            return False
+        return True

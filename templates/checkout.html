@@ -4,6 +4,9 @@
     integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
     crossorigin="anonymous"
 ></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="../static/js/checkout.js"></script>
+
 <link href="../static/css/styles.css" rel="stylesheet" />
 
 {% if isuser==1%}
@@ -85,7 +88,7 @@
             </div>
             <div class="col-md-7 col-lg-8">
                 <h4 class="mb-3">Tus datos</h4>
-                <form class="needs-validation" novalidate>
+                <form class="needs-validation pagos" id="pago">
                     <div class="row g-3">
                         <div class="col-sm-6">
                             <label for="firstName" class="form-label"
@@ -123,7 +126,6 @@
                                 </div>
                             </div>
                         </div>
-                        {%if len_d>0%} {%else%}
                         <div class="col-12">
                             <label for="username" class="form-label"
                                 >Calle</label
@@ -133,6 +135,7 @@
                                     type="text"
                                     class="form-control"
                                     id="txt_calle"
+                                    value="{{data_user["adress"]["calle"]}}"
                                     required
                                 />
                                 <div class="invalid-feedback">
@@ -150,6 +153,7 @@
                                     class="form-control"
                                     id="txtnumexterior"
                                     required
+                                    value="{{data_user["adress"]["num_exte"]}}"
                                 />
                                 <div class="invalid-feedback">
                                     Dato requirido
@@ -164,7 +168,11 @@
                                     >(Opcional)</span
                                 ></label
                             >
-                            <input type="text" class="form-control" id="txtnuminterior" />
+                            <input type="text" class="form-control"
+                            id="txtnuminterior"
+
+                            value="{{data_user["adress"]["num_inter"]}}"
+                            />
                         </div>
                         
                             <div class="col-sm-6">
@@ -175,6 +183,8 @@
                                     type="text"
                                     class="form-control"
                                     id="txtestado"
+
+                                    value="{{data_user["adress"]["estado"]}}"
                                 />
                             </div>
                             <div class="col-sm-6">
@@ -185,6 +195,8 @@
                                     type="text"
                                     class="form-control"
                                     id="txtminicipio"
+
+                                    value="{{data_user["adress"]["municipio"]}}"
                                 />
                             </div>
                              <div class="col-sm-6">
@@ -194,7 +206,9 @@
                                 <input
                                     type="text"
                                     class="form-control"
-                                    id="txtminicipio"
+                                    id="txtcolonia"
+
+                                    value="{{data_user["adress"]["colonia"]}}"
                                 />
                             </div>
                         
@@ -207,6 +221,8 @@
                                     type="text"
                                     class="form-control"
                                     id="txtpostal"
+
+                                    value="{{data_user["adress"]["cp"]}}"
                                 />
                             </div>
                             <div class="col-12">
@@ -217,145 +233,43 @@
                                     <textarea
                                         class="form-control"
                                         placeholder="Da una descripción del lugar"
+
+                                        value="{{data_user["adress"]["referencia"]}}"
                                         id="txtreferencia"
                                     ></textarea>
                                 </div>
                             </div>
                         
 
-                        {%endif%}
                     </div>
 
                     <hr class="my-4" />
 
-                    <h4 class="mb-3">Payment</h4>
+                    <h4 class="mb-3">Pagos</h4>
 
-                    <div class="my-3">
-                        <div class="form-check">
-                            <input
-                                id="credit"
-                                name="paymentMethod"
-                                type="radio"
-                                class="form-check-input"
-                                checked
-                                required
-                            />
-                            <label class="form-check-label" for="credit"
-                                >Credit card</label
-                            >
-                        </div>
-                        <div class="form-check">
-                            <input
-                                id="debit"
-                                name="paymentMethod"
-                                type="radio"
-                                class="form-check-input"
-                                required
-                            />
-                            <label class="form-check-label" for="debit"
-                                >Debit card</label
-                            >
-                        </div>
-                        <div class="form-check">
-                            <input
-                                id="paypal"
-                                name="paymentMethod"
-                                type="radio"
-                                class="form-check-input"
-                                required
-                            />
-                            <label class="form-check-label" for="paypal"
-                                >PayPal</label
-                            >
-                        </div>
-                    </div>
-
-                    <div class="row gy-3">
-                        <div class="col-md-6">
-                            <label for="cc-name" class="form-label"
-                                >Name on card</label
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="cc-name"
-                                placeholder=""
-                                required
-                            />
-                            <small class="text-muted"
-                                >Full name as displayed on card</small
-                            >
-                            <div class="invalid-feedback">
-                                Name on card is required
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="cc-number" class="form-label"
-                                >Credit card number</label
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="cc-number"
-                                placeholder=""
-                                required
-                            />
-                            <div class="invalid-feedback">
-                                Credit card number is required
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label for="cc-expiration" class="form-label"
-                                >Expiration</label
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="cc-expiration"
-                                placeholder=""
-                                required
-                            />
-                            <div class="invalid-feedback">
-                                Expiration date required
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label for="cc-cvv" class="form-label">CVV</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="cc-cvv"
-                                placeholder=""
-                                required
-                            />
-                            <div class="invalid-feedback">
-                                Security code required
-                            </div>
-                        </div>
-                    </div>
+                    <div id="payment-element"></div>
+                    <div id="payment-message"></div>
 
                     <hr class="my-4" />
 
                     <button class="w-100 btn btn-primary btn-lg" type="submit">
-                        Continue to checkout
+                        Continuar con la compra
                     </button>
                 </form>
+                <div id="spiner" >
+
+                </div>
             </div>
         </div>
     </main>
 
     <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p class="mb-1">&copy; 2017–2021 Company Name</p>
-        <ul class="list-inline">
-            <li class="list-inline-item"><a href="#">Privacy</a></li>
-            <li class="list-inline-item"><a href="#">Terms</a></li>
-            <li class="list-inline-item"><a href="#">Support</a></li>
-        </ul>
+        <p class="mb-1">&copy; 2022 Helpme Store</p>
+ 
     </footer>
 </div>
+
+
 {%else%}
 <!--SignIn -->
 <style>
@@ -422,4 +336,6 @@
 </script>
 <script src="../static/js/login.js"></script>
 {% endif %} {% endblock%}
+
+
 <script src="../static/js/form-validation.js"></script>
