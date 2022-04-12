@@ -237,5 +237,11 @@ def addadress():
         nuser=user.user().AddAdress(request.get_json(),session["user"])
         session["user"]=nuser
         return jsonify({"response":session["user"]})
+
+@app.route("/nextsell")
+def nextsell():
+    if 'car_item' in session:
+        session["car_item"]=[]
+    return redirect(url_for('index'))
 if __name__ =="__main__":
     app.run(port=80,host="0.0.0.0", debug=True, ssl_context=("/cert.pem", "/key.pem"))
