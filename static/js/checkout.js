@@ -37,9 +37,11 @@ async function initialize() {
             console.log(data)
             if (data["sin_tarjeta"] == 1) {
                 console.log("Tarjetas")
+                var frame = document.getElementById("payment-element")
+                frame.innerHTML = ""
                 PayWithCards(data)
             } else {
-                console.log("Sin tarjetas")
+
                 PayWithOutCard(data)
             }
         })
@@ -79,10 +81,12 @@ const InputPay = () => {
         }
     })
     inputs[inputs.length - 1].addEventListener("click", () => {
+        setLoading(true)
         fetch('/newcard', {
             method: "POST"
         }).then((data) => data.json()).then((data) => {
             PayWithOutCard(data)
+            setLoading(false)
         }
         )
     })
@@ -170,8 +174,8 @@ function showMessage(messageText) {
 // Show a spinner on payment submission
 function setLoading(isLoading) {
     if (isLoading) {
-        spiner = document.getElementById("spiner");
-        spiner.innerHTML = `< div class= "spinner-border" role = "status" >
+        spiner = document.getElementById("load");
+        spiner.innerHTML = `<div class= "spinner-border" role = "status" >
     <span class="visually-hidden">Loading...</span>
 </div > `;
 
