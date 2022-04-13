@@ -1,8 +1,8 @@
 let inputs;
 let user_info;
 let updatenumber;
+let updatedateuser = document.getElementById("updatedateuser")
 
-let loadupdate = document.getElementById("loadupdate");
 
 var updatedata = new bootstrap.Modal(document.getElementById('updatedata'))
 
@@ -57,6 +57,8 @@ function deleted(number) {
         });
 }
 function updatedirection(number) {
+
+
     updatenumber = number;
     document.getElementById("txt_calle").value = user_info["adress"][number]["calle"]
     document.getElementById("txtnumexterior").value = user_info["adress"][number]["num_exte"]
@@ -66,7 +68,27 @@ function updatedirection(number) {
     document.getElementById("txtcolonia").value = user_info["adress"][number]["colonia"]
     document.getElementById("txtpostal").value = user_info["adress"][number]["cp"]
     document.getElementById("txtreferencia").value = user_info["adress"][number]["referencia"]
+    updatedateuser.addEventListener("submit", (e) => {
+        e.preventDefault();
 
+        let loadupdate = document.getElementById("loadupdate");
+        console.log(loadupdate)
+        SetLoadingUpdate(loadupdate, true);
+        user_info["adress"][updatenumber] = LeerFormularioDirecciones()
+        fetch("/updatedata", {
+            method: "POST",
+            body: JSON.stringify(user_info),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((data) => data.json())
+            .then((data) => {
+                inputs = DrawDirecction(data["response"]);
+                SetLoadingUpdate(loadupdate, false);
+            });
+
+    })
     updatedata.show();
 }
 const GetDataUser = () => {
@@ -89,7 +111,7 @@ const SetLoading = (status) => {
         load.innerHTML = "";
     }
 };
-const SetLoadingUpdate = (status) => {
+const SetLoadingUpdate = (loadupdate, status) => {
     if (status) {
         loadupdate.innerHTML += `<div class="spinner-border" role="status">
   <span class="visually-hidden">Loading...</span>
