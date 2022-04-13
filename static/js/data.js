@@ -13,9 +13,10 @@ const DrawData = (data_user) => {
 };
 const DrawDirecction = (data) => {
     var direcciones = document.getElementById("direc");
-
+    direcciones.innerHTML = ""
+    var i = 0;
     data["adress"].forEach((adress) => {
-        direcciones.innerHTML = `
+        direcciones.innerHTML += `
         <div class="col">
         <div class="card" style="width: 18rem;">
   <div class="card-body">
@@ -24,14 +25,34 @@ const DrawDirecction = (data) => {
     ${adress["calle"]} #${adress["num_inter"]} ${adress["num_exte"]} c.p. ${adress["cp"]}
     ${adress["colonia"]} ${adress["municipio"]} ${adress["estado"]} ${adress["referencia"]}
     </p>
-    <a href="#" class="card-link">Editar</a>
-    <a href="#" class="card-link">Borrar</a>
+    <button onclick="deleted(${i})" class="btn btn-danger" >Borrar</button>
+    <button onclick="updatedirection${i}" class="btn btn-primary" >Editar</button>
   </div>
 </div>
 </div>
         `;
+        i++;
     });
 };
+function deleted(number) {
+    user_info["adress"].splice(number, 1)
+    SetLoading(true);
+    fetch("/updatedata", {
+        method: "POST",
+        body: JSON.stringify(user_info),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((data) => data.json())
+        .then((data) => {
+            inputs = DrawDirecction(data["response"]);
+            SetLoading(false);
+        });
+}
+function updatedirection(number) {
+    console.log(number)
+}
 const GetDataUser = () => {
     fetch("/getdatauser")
         .then((data) => data.json())
