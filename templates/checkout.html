@@ -18,6 +18,10 @@
 <link href="../static/css/form-validation.css" rel="stylesheet" />
 
 <style>
+.centro{
+      display: flex;
+  justify-content: center;
+}
     .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -25,7 +29,9 @@
         -moz-user-select: none;
         user-select: none;
     }
-
+    .cargador{
+       display:none;
+    }
     @media (min-width: 768px) {
         .bd-placeholder-img-lg {
             font-size: 3.5rem;
@@ -255,10 +261,12 @@
                     <div id="payment-message"></div>
 
                     <hr class="my-4" />
-
-                    <button class="w-100 btn btn-primary btn-lg" type="submit"
-
-                        >
+                    <div id ="cargador" class="mb-5 centro cargador">
+<div class="spinner-border text-secondary" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>
+                    </div>
+                    <button class="w-100 btn btn-primary btn-lg" type="submit" onclick="mostrar()">
                         Continuar con la compra
                     </button>
                 </form>
@@ -270,7 +278,11 @@
         <p class="mb-1">&copy; 2022 Helpme Store</p>
     </footer>
 </div>
-
+<script>
+function mostrar(){
+            document.getElementById('cargador').style.display = 'block';
+        }
+</script>
 {%else%}
 <!--SignIn -->
 <style>
@@ -329,6 +341,7 @@
     </div>
 
     <script>
+        
         var myModal = new bootstrap.Modal(
             document.getElementById("staticBackdrop")
         );
