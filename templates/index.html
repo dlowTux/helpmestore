@@ -772,6 +772,90 @@
             </div>
         </div>
     </div>
+    <!--Modal Update -->
+    <div class="modal fade" id="updatedata" tabindex="-1" aria-labelledby="updatedata" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Dirección</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="updatedateuser">
+                        <div class="col-12">
+                            <label for="username" class="form-label">Calle</label>
+                            <div class="input-group has-validation">
+                                <input type="text" class="form-control" id="txt_calle" required />
+                                <div class="invalid-feedback">
+                                    Calle es requirido
+                                </div>
+                            </div>
+                        </div>
+                        <div class="co-12">
+                            <label for="username" class="form-label">Número exterior</label>
+                            <div class="input-group has-validation">
+                                <input type="text" class="form-control" id="txtnumexterior" required />
+                                <div class="invalid-feedback">
+                                    Dato requirido
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="email" class="form-label">Número interior
+                                <span class="text-muted">(Opcional)</span></label>
+                            <input type="text" class="form-control" id="txtnuminterior" />
+                        </div>
+
+                        <div class="col-12">
+                            <label for="email" class="form-label">Estado
+                            </label>
+                            <input type="text" class="form-control" id="txtestado" required />
+                        </div>
+                        <div class="col-12">
+                            <label for="email" class="form-label">Municipio
+                            </label>
+                            <input type="text" class="form-control" id="txtminicipio" required />
+                        </div>
+                        <div class="col-12">
+                            <label for="email" class="form-label">Colonia
+                            </label>
+                            <input type="text" class="form-control" id="txtcolonia" required />
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Código postal </label>
+                            <input type="text" class="form-control" id="txtpostal" required />
+                        </div>
+                        <div class="col-12">
+                            <label for="email" class="form-label">Referencia
+                            </label>
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Da una descripción del lugar" required
+                                    id="txtreferencia"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <button class="
+                                    w-100
+                                    mb-2
+                                    btn btn-lg
+                                    rounded-4
+                                    btn-primary
+                                " type="submit">
+                                Actualizar
+                            </button>
+                        </div>
+                        <div class="loadupdate">
+
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
     <!-- Portfolio item 1 modal popup-->
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

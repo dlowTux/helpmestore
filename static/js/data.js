@@ -1,5 +1,11 @@
 let inputs;
 let user_info;
+let updatenumber;
+
+let loadupdate = document.getElementById("loadupdate");
+
+var updatedata = new bootstrap.Modal(document.getElementById('updatedata'))
+
 const DrawData = (data_user) => {
     let inputs = {
         txtnombre: document.getElementById("txtnombre"),
@@ -26,7 +32,7 @@ const DrawDirecction = (data) => {
     ${adress["colonia"]} ${adress["municipio"]} ${adress["estado"]} ${adress["referencia"]}
     </p>
     <button onclick="deleted(${i})" class="btn btn-danger" >Borrar</button>
-    <button onclick="updatedirection${i}" class="btn btn-primary" >Editar</button>
+    <button onclick="updatedirection(${i})" class="btn btn-primary" >Editar</button>
   </div>
 </div>
 </div>
@@ -51,7 +57,17 @@ function deleted(number) {
         });
 }
 function updatedirection(number) {
-    console.log(number)
+    updatenumber = number;
+    document.getElementById("txt_calle").value = user_info["adress"][number]["calle"]
+    document.getElementById("txtnumexterior").value = user_info["adress"][number]["num_exte"]
+    document.getElementById("txtnuminterior").value = user_info["adress"][number]["num_inter"]
+    document.getElementById("txtestado").value = user_info["adress"][number]["estado"]
+    document.getElementById("txtminicipio").value = user_info["adress"][number]["municipio"]
+    document.getElementById("txtcolonia").value = user_info["adress"][number]["colonia"]
+    document.getElementById("txtpostal").value = user_info["adress"][number]["cp"]
+    document.getElementById("txtreferencia").value = user_info["adress"][number]["referencia"]
+
+    updatedata.show();
 }
 const GetDataUser = () => {
     fetch("/getdatauser")
@@ -71,6 +87,15 @@ const SetLoading = (status) => {
 </div>`;
     } else {
         load.innerHTML = "";
+    }
+};
+const SetLoadingUpdate = (status) => {
+    if (status) {
+        loadupdate.innerHTML += `<div class="spinner-border" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>`;
+    } else {
+        loadupdate.innerHTML = "";
     }
 };
 const ChangeData = () => {
@@ -96,6 +121,20 @@ const ChangeData = () => {
             });
     });
 };
+
+const LeerFormularioDirecciones = () => {
+    return {
+        "calle": document.getElementById("txt_calle").value,
+        "num_exte": document.getElementById("txtnumexterior").value,
+        "num_inter": document.getElementById("txtnuminterior").value,
+        "estado": document.getElementById("txtestado").value,
+        "municipio": document.getElementById("txtminicipio").value,
+        "colonia": document.getElementById("txtcolonia").value,
+        "cp": document.getElementById("txtpostal").value,
+        "referencia": document.getElementById("txtreferencia").value
+    }
+}
+
 window.addEventListener("DOMContentLoaded", (event) => {
     GetDataUser();
     ChangeData();
