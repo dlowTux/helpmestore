@@ -298,6 +298,7 @@
             </div>
         </div>
     </div>
+
     {% endif%}
 
     <!--Offcanvas -->
@@ -716,12 +717,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="form-data">
                         <div class="row">
                             <div class="col-6">
                                 <label for="username" class="form-label">Nombre</label>
                                 <div class="input-group has-validation">
-                                    <input type="text" class="form-control" id="txtnumber" required value="" />
+                                    <input type="text" class="form-control" id="txtnombre" required value="" />
                                     <div class="invalid-feedback">
                                         Número es requirido
                                     </div>
@@ -730,7 +731,7 @@
                             <div class="col-6">
                                 <label for="username" class="form-label">Apellido</label>
                                 <div class="input-group has-validation">
-                                    <input type="text" class="form-control" id="txtnumber" required value="" />
+                                    <input type="text" class="form-control" id="txtapellido" required value="" />
                                     <div class="invalid-feedback">
                                         Número es requirido
                                     </div>
@@ -746,6 +747,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="centro" id="loadspiner"></div>
                         <div class="centro">
                             <div class="mt-4 btn-datos">
                                 <button class="
@@ -900,6 +902,10 @@
     {% if token==0 %}
     <script src="../static/js/login.js"></script>
     {% endif%}
+
+    {% if token == 1%}
+    <script src="../static/js/data.js"></script>
+    {% endif %}
     <script>
         var imagenselect = document.getElementById("producto");
         var myModal = new bootstrap.Modal(

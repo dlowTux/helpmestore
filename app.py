@@ -107,7 +107,7 @@ def checkout():
         data =session['user']
         #Check For optinonal data
         data["adress"],data["phone"]=user.user().CheckOptionalData(data)
-        print(data)
+        
     cart_=getCart()
     len_adress=len(data["adress"])
     num_pro=len(cart_)
@@ -221,7 +221,7 @@ def payall():
 def checkoutsave():
     if g.user:
         data=request.get_json();
-        user.user().SaveSell(data,session['user'])
+        session["user"]=user.user().SaveSell(data,session['user'])
     return jsonify({"response":"Respuesta"})
 
 @app.route('/paymentcomplete')
@@ -249,6 +249,21 @@ def password_reset():
     data=request.get_json()
     user.user().resetpassword(data)
     return jsonify({"response":"OK"})
+
+@app.route('/getdatauser')
+def getdatauser():
+    if g.user:
+        return jsonify({"response":session["user"]})
+    return jsonify({"response":"error you have to sigin before"}),403
+@app.route('/updatedata', methods=["POST"])
+def updatedata():
+    if g.user:
+        data=request.get_json()
+        user.user().UpdateDataUser(data)
+        session["user"]=data
+        return jsonify({"response":session["user"]})
+    return jsonify({"response":"Error you must have a user"})
+
 
 if __name__ =="__main__":
     app.run(port=80,host="0.0.0.0", debug=True, ssl_context=("/cert.pem", "/key.pem"))

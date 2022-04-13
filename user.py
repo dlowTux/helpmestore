@@ -3,6 +3,8 @@ import database
 import stripe
 import sells
 class user:
+    def UpdateDataUser(self,data):
+        database.database().UpdateUserInfo(data)
 
     def resetpassword(self,data):
         database.database().resetpassword(data["email"])
@@ -78,6 +80,7 @@ class user:
                 "client":user["client"]
                 }
         sells.seell().SaveSell(data)
+        return user_data
 
     def SaveDirection(self,data,user):
         
