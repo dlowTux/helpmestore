@@ -5,7 +5,7 @@ from stripe.api_resources import customer
 import cart
 import user
 import stripe
-import json
+import sells
 app=Flask(__name__)
 app.secret_key=os.environ.get('secret_key')
 stripe.api_key = os.environ.get('key')
@@ -221,7 +221,7 @@ def payall():
 def checkoutsave():
     if g.user:
         data=request.get_json();
-        session["user"]=user.user().SaveSell(data,session['user'])
+        session["user"]=user.user().SaveSell(data,session['user'],session['car_item'])
     return jsonify({"response":"Respuesta"})
 
 @app.route('/paymentcomplete')
@@ -264,6 +264,11 @@ def updatedata():
         return jsonify({"response":session["user"]})
     return jsonify({"response":"Error you must have a user"})
 
-
+@app.route('/getsells')
+def getsells():
+    if g.user:
+        se=sells.seell().GetSells(session["user"]["localId"])
+        return jsonify({"response":se})
+    return jsonify({"response":"error you must sigin before "}),403
 if __name__ =="__main__":
     app.run(port=80,host="0.0.0.0", debug=True, ssl_context=("/cert.pem", "/key.pem"))

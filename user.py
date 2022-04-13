@@ -59,7 +59,7 @@ class user:
         except :
             return False
 
-    def SaveSell(self,data,user):
+    def SaveSell(self,data,user, carrito):
         user_data=database.database().SearchByLocalID(user["localId"])
         user_data["phone"]=data["telefono"]
         if self.HasDirection(user_data):
@@ -79,6 +79,7 @@ class user:
                 "id_user":user["localId"],
                 "client":user["client"]
                 }
+        data["carrito"]=carrito
         sells.seell().SaveSell(data)
         return user_data
 

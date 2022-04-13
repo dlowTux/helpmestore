@@ -11,4 +11,6 @@ class seell:
         if database.database().registersell(data):
             return True
         return False
+    def GetSells(self,uuid):
+        return database.database().GetSells(uuid)
 

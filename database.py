@@ -71,5 +71,15 @@ class database:
                 user_["uuid"]=user.key()
                 return user_
         return None
+    def GetSells(self,localId):
+        db =self.firebase.database()
+        sells = db.child("sells").get()
+        all_sell=[]
+        for  sel in sells.each():
+            sell_=sel.val()
+            if sell_["customer"]["id_user"]==localId:
+                all_sell.append({"key":sel.key(),"data":sell_})
+        return all_sell
+        
   
 
