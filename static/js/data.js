@@ -15,7 +15,7 @@ const GetDataUser = () => {
     fetch('/getdatauser')
         .then((data) => data.json())
         .then((data) => {
-            user_info = data
+            user_info = data["response"]
             inputs = DrawData(data["response"])
 
         })
@@ -50,7 +50,8 @@ const ChangeData = () => {
         })
             .then((data) => data.json())
             .then((data) => {
-                console.log(data)
+
+                inputs = DrawData(data["response"])
                 SetLoading(false);
             })
 
