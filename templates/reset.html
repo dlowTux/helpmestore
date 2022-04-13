@@ -1,0 +1,21 @@
+{% extends "layout.html" %} {% block content %}
+<style>
+    .contenedor {
+        display: flex;
+        justify-content: center;
+    }
+</style>
+<div class="contenedor">
+    <div>
+        <form>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Enter email">
+
+            </div>
+            <button class="btn btn-primary">Cambiar contraseña</button>
+        </form>
+    </div>
+</div>
+{%endblock%}

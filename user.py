@@ -4,6 +4,9 @@ import stripe
 import sells
 class user:
 
+    def resetpassword(self,data):
+        database.database().resetpassword(data["email"])
+
     def AddAdress(self,data,user):
         user["adress"].append(data)
         database.database().UpdateUserInfo(user)

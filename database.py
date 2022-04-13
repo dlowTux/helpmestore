@@ -15,6 +15,8 @@ class database:
             }
     firebase=pyrebase.initialize_app(firebaseConfig)
     auth=firebase.auth()
+    def resetpassword(self,email):
+        self.auth.send_password_reset_email(email)
 
     def CreateUserWithEmail(self,data):
         try:

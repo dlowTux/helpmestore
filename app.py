@@ -243,5 +243,12 @@ def nextsell():
     if 'car_item' in session:
         session["car_item"]=[]
     return redirect(url_for('index'))
+
+@app.route("/password_reset",methods=["POST"])
+def password_reset():
+    data=request.get_json()
+    user.user().resetpassword(data)
+    return jsonify({"response":"OK"})
+
 if __name__ =="__main__":
     app.run(port=80,host="0.0.0.0", debug=True, ssl_context=("/cert.pem", "/key.pem"))
