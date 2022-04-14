@@ -56,7 +56,7 @@ const DrawSells = (data) => {
 
     <p class="card-text"> Dirección: ${sell["data"]["adress"]["calle"]} #${sell["data"]["adress"]["num_exte"]} ${sell["data"]["adress"]["num_inter"]} ${sell["data"]["adress"]["colonia"]} ${sell["data"]["adress"]["cp"]}, ${sell["data"]["adress"]["municipio"]} ${sell["data"]["adress"]["estado"]}
 </p>
-${boton}
+
      </div>
 </div>
         `
