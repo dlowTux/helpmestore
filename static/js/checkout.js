@@ -1,4 +1,4 @@
-var url = "https://172.17.0.2:80/paymentcomplete"
+var url = "http://tecgramapi.southcentralus.cloudapp.azure.com:5000/paymentcomplete"
 var stripe;
 let inputs;
 let con_tarjetas = false
