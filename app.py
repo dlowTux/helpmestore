@@ -1,14 +1,14 @@
 from flask import Flask,render_template,session,g,request,jsonify,redirect,url_for
-import os
 
+from decouple import config
 from stripe.api_resources import customer
 import cart
 import user
 import stripe
 import sells
 app=Flask(__name__)
-app.secret_key=os.environ.get('secret_key')
-stripe.api_key = os.environ.get('key')
+app.secret_key=config('secret_key')
+stripe.api_key = config('key')
 @app.route('/')
 def index():
     user=0
@@ -141,7 +141,7 @@ def getCart():
 
 @app.route("/keys")
 def public_keys():
-    return jsonify({'key':os.environ.get('public_key')})
+    return jsonify({'key':config('public_key')})
 
 
 @app.route("/create-payment-intent", methods=['POST'])

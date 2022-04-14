@@ -1,17 +1,17 @@
 import pyrebase
-import os
+from decouple import config
 #from firebase import firebase 
 
 class database:
     firebaseConfig={
-            "apiKey": os.environ.get('apiKeyh'),
-            "authDomain": os.environ.get('authDomainh'),
-            "databaseURL":os.environ.get('databaseURLh'),
-            "projectId": os.environ.get('projectIdh'),
-            "storageBucket": os.environ.get('storageBucketh'),
-            "messagingSenderId": os.environ.get('messagingSenderIdh'),
-            "appId": os.environ.get('appIdh'),
-            "measurementId": os.environ.get('measurementIdh')
+            "apiKey": config('apiKeyh'),
+            "authDomain": config('authDomainh'),
+            "databaseURL":config('databaseURLh'),
+            "projectId": config('projectIdh'),
+            "storageBucket": config('storageBucketh'),
+            "messagingSenderId": config('messagingSenderIdh'),
+            "appId": config('appIdh'),
+            "measurementId": config('measurementIdh')
             }
     firebase=pyrebase.initialize_app(firebaseConfig)
     auth=firebase.auth()
