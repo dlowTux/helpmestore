@@ -1,4 +1,3 @@
-from app import client
 import database
 import stripe
 import sells
