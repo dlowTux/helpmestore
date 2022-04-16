@@ -1,0 +1,13 @@
+python-dotenv 
+python-decouple
+click
+pyrebase
+Flask
+gunicorn 
+itsdangerous
+Jinja2
+MarkupSafe
+pytz
+stripe  
+
+

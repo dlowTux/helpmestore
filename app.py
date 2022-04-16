@@ -276,4 +276,4 @@ def cancelarcompra(id_venta):
         return jsonify({"response":""})
     return jsonify({"response":"error you must sigin"}),403
 if __name__ =="__main__":
-    app.run(port=80,host="0.0.0.0", debug=True, ssl_context=("/cert.pem", "/key.pem"))
+    app.run(port=5000,host="0.0.0.0", debug=True)
