@@ -1,0 +1,245 @@
+{% extends "layout.html" %} {% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Dashboard</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+<div class="container mt-3">
+    <h3>Ventas</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Total compra</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Ver datalles</th>
+            </tr>
+        </thead>
+        <tbody id="tabla"></tbody>
+    </table>
+</div>
+<div class="modal fade" id="datos" tabindex="-1" aria-labelledby="datos" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalles del pedido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="datas">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+
+<script>
+    ///getsells
+    let data_;
+    let tabla = document.getElementById("tabla");
+    let datas = document.getElementById("datas");
+    const precio = 500;
+
+    var myModal = new bootstrap.Modal(document.getElementById('datos'))
+    window.addEventListener("DOMContentLoaded", (event) => {
+        fetch("/getsells")
+            .then((data) => data.json())
+            .then((data) => {
+                console.log(data)
+
+                tabla.innerHTML = "";
+                let i = 1;
+                data_ = data["response"];
+                data["response"].forEach((sell) => {
+
+
+                    tabla.innerHTML += `
+                     <tr>
+                     <th scope="row">${i}</th>
+                        <td>${CalculateTotal(i - 1)}</td>
+                     <td>${sell["data"]["customer"]["name"] +
+                        " " +
+                        sell["data"]["customer"]["lastname"]
+                        }</td >
+                <td><button type="button" class="btn btn-primary" onclick="detalles(${i - 1})">Detalles</button></td>
+                </tr >
+                    `;
+                    i++;
+                });
+            });
+    });
+    const CalculateTotal = (numero) => {
+        total = 0
+        data_[numero]["data"]["carrito"].forEach((car) => {
+            total += parseFloat(car["amount"])
+        })
+        return total * precio
+    }
+    const DrawCarrito = (numero) => {
+
+        var select = ""
+        total = 1
+        data_[numero]["data"]["carrito"].forEach((car) => {
+
+            select += ` 
+ <div class="card mb-3 mt-2">
+                            <div class="row g-0">
+                                <div class="col-md-2">
+                                    <img src="${car["photo"]}" class="img-fluid rounded-start" width="128px"
+                                        height="128px">
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="card-body">
+                                        <h5 class="card-title">SmartBand ${car["color"]} </h5>
+                                        <p class="card-text"> Cantidad:${car["amount"]} <br>
+
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+   
+`
+            total++;
+        })
+        return select
+    }
+    const DrawEstados = (numero) => {
+        var select = ``
+
+        if (data_[numero]["data"]["estado"] == undefined) {
+            select = `
+            <option selected>En proceso</option>
+            <option >Enviado</option>
+            <option >Cancelado</option>
+            <option >Entregado</option>
+                `
+        }
+        if (data_[numero]["data"]["estado"] == "Enviado") {
+            select = `
+            <option >En proceso</option>
+            <option selected>Enviado</option>
+            <option >Cancelado</option>
+            <option >Entregado</option>
+                `
+        }
+        if (data_[numero]["data"]["estado"] == "Cancelado") {
+            select = `
+            <option >En proceso</option>
+            <option >Enviado</option>
+            <option selected>Cancelado</option>
+            <option >Entregado</option>
+                `
+        }
+        if (data_[numero]["data"]["estado"] == "Entregado") {
+            select = `
+            <option >En proceso</option>
+            <option >Enviado</option>
+            <option >Cancelado</option>
+            <option selected>Entregado</option>
+                `
+        }
+        return select
+    }
+    function detalles(numero) {
+        info = data_[numero]["data"]
+        datas.innerHTML = `
+<div class="card">
+  <div class="card-header">
+    Datos del pedido
+  </div>
+  <div class="card-body">
+            <span class="fw-bold">Fecha: </span>${info["date"]}<br>
+    <span class="fw-bold">Total: </span>${"$" + CalculateTotal(numero)}
+     </div>
+</div>
+                        <div class="card mt-2">
+                    <div class="card-header">
+                        Dirección
+                    </div>
+                    <div class="card-body">
+ ${info["adress"]["calle"] + " #" + info["adress"]["num_exte"] + ", " + info["adress"]["num_inter"] + " c.p." +
+            info["adress"]["cp"] + " " + info["adress"]["colonia"] + " " + info["adress"]["municipio"] + " " + info["adress"]["estado"]
+            } 
+
+                                          </div>
+                </div>
+
+                <div class="card mt-2">
+                    <div class="card-header">
+                        Datos del cliente
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                               Nombre: <span class="fw-bold">${info["customer"]["name"] + " " + info["customer"]["lastname"]} </span>
+                               <br> Teléfono: <span class="fw-bold">${info["telefono"]}</span>
+                            </div>
+                            <div class="col">
+                                <h5 class="fw-bold">Estado del pedido</h5>
+                                <select class="form-select" aria-label="Default select example" id="estado">
+                                   ${DrawEstados(numero)} 
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               <div class="card mt-2">
+                    <div class="card-header">
+                        Carrito  </div>
+                    <div class="card-body">
+                       
+                ${DrawCarrito(numero)}
+                    </div>
+                </div>
+
+`
+        estados = document.querySelectorAll("#estado")
+        estados.forEach((esta) => {
+            esta.addEventListener("click", () => {
+                data_[numero]["data"]["estado"] = esta.value
+                console.log(data_)
+                fetch('/updatesell', {
+
+                    method: "POST", body: JSON.stringify({"estado": data_[numero]}),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }).then((response) => response.json())
+                    .then((data) => {
+                        console.log(data)
+
+                        tabla.innerHTML = "";
+                        let i = 1;
+                        data_ = data["response"];
+                        data["response"].forEach((sell) => {
+
+
+                            tabla.innerHTML += `
+                     <tr>
+                     <th scope="row">${i}</th>
+                        <td>${CalculateTotal(i - 1)}</td>
+                     <td>${sell["data"]["customer"]["name"] +
+                                " " +
+                                sell["data"]["customer"]["lastname"]
+                                }</td >
+                <td><button type="button" class="btn btn-primary" onclick="detalles(${i - 1})">Detalles</button></td>
+                </tr >
+                    `;
+                            i++;
+                        });
+                    })
+            })
+
+        })
+        myModal.show()
+    }
+</script>
+{% endblock%}

@@ -53,7 +53,13 @@ class database:
         except:
             return False
         return True
-
+    def UpdateSellInfo(self,data_sell,key):
+        try:
+            db=self.firebase.database()
+            db.child("sells").child(key).update(data_sell)
+        except:
+            return False
+        return True
     def SignIn(self,data):
         try:
             user=self.auth.sign_in_with_email_and_password(data["email"],data["password"])
@@ -80,6 +86,19 @@ class database:
             if sell_["customer"]["id_user"]==localId:
                 all_sell.append({"key":sel.key(),"data":sell_})
         return all_sell
+    
+    def GetAllSells(self):
+        db =self.firebase.database()
+        sells = db.child("sells").get()
+        all_sell=[]
+        for  sel in sells.each():
+            sell_=sel.val()
+            all_sell.append({"key":sel.key(),"data":sell_})
+        return all_sell
+
+
+
+
         
   
 

@@ -14,3 +14,8 @@ class seell:
     def GetSells(self,uuid):
         return database.database().GetSells(uuid)
 
+    def GetAllSells(self):
+        return database.database().GetAllSells()
+    def UpdateSell(self,data,key):
+        return database.database().UpdateSellInfo(data,key)
+

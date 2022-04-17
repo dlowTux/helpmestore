@@ -279,11 +279,21 @@ def cancelarcompra(id_venta):
 @app.route('/dashboard')
 def dashboard():
     if g.user:
-        print(config("localId"))
-        print(session["user"])
-        if session["user"]["localId"]==config("localId"):
-            return  jsonify({"response":"You are admin"})
+        if session["user"]["localId"] in str(config("localId")).split(','):
+            return  render_template('dashboard.html')
         return render_template('error.html'),403
+
+@app.route('/getsells')
+def getsellsall():
+    if g.user:
+        return jsonify({"response":sells.seell().GetAllSells()})
+
+@app.route('/updatesell', methods=["POST"])
+def updatesell():
+    if g.user:
+        data=request.get_json()
+        sells.seell().UpdateSell(data["estado"]["data"],data["estado"]["key"])
+        return jsonify({"response":sells.seell().GetAllSells()})
 
 if __name__ =="__main__":
     app.run(port=5000,host="0.0.0.0", debug=True)
