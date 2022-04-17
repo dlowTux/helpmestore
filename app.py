@@ -275,5 +275,15 @@ def cancelarcompra(id_venta):
     if g.user:
         return jsonify({"response":""})
     return jsonify({"response":"error you must sigin"}),403
+
+@app.route('/dashboard')
+def dashboard():
+    if g.user:
+        print(config("localId"))
+        print(session["user"])
+        if session["user"]["localId"]==config("localId"):
+            return  jsonify({"response":"You are admin"})
+        return render_template('error.html'),403
+
 if __name__ =="__main__":
     app.run(port=5000,host="0.0.0.0", debug=True)
